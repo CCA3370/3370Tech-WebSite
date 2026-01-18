@@ -1,0 +1,42 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "products": "Products"
+  },
+  "home": {
+    "hero": {
+      "title": "3370Tech",
+      "subtitle": "Focused on X-Plane Ecosystem Development",
+      "scrollDown": "Scroll Down"
+    },
+    "learnMore": "Learn More",
+    "quickDownload": "Quick Download"
+  },
+  "product": {
+    "version": "Version",
+    "download": "Download",
+    "downloads": "Downloads",
+    "features": "Features",
+    "backToHome": "Back to Home",
+    "includePrerelease": "Include pre-release versions"
+  },
+  "about": {
+    "title": "About Us",
+    "description": "3370Tech is dedicated to providing efficient and reliable software tools. Our products focus on software management and deployment, helping users simplify workflows and improve efficiency.",
+    "contact": "Contact",
+    "email": "contact@3370.tech",
+    "location": "China",
+    "followUs": "Follow Us"
+  },
+  "footer": {
+    "copyright": "© 2024 3370Tech. All rights reserved.",
+    "builtWith": "Built with Next.js"
+  },
+  "theme": {
+    "label": "Theme",
+    "minimal": "Minimal",
+    "tech": "Tech",
+    "soft": "Soft"
+  }
+}

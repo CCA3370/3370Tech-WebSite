@@ -1,0 +1,104 @@
+{
+  "products": [
+    {
+      "id": "product-1",
+      "slug": "zupdater",
+      "name": {
+        "zh": "ZUpdater",
+        "en": "ZUpdater"
+      },
+      "description": {
+        "zh": "智能软件更新管理工具",
+        "en": "Intelligent Software Update Manager"
+      },
+      "longDescription": {
+        "zh": "ZUpdater 是一款专业的软件更新管理工具，帮助您轻松管理所有应用程序的更新。自动检测可用更新、批量更新、版本回滚等功能，让软件管理变得简单高效。支持多种软件源，确保您的应用始终保持最新状态。",
+        "en": "ZUpdater is a professional software update management tool that helps you easily manage updates for all your applications. Features include automatic update detection, batch updates, version rollback, and more, making software management simple and efficient. Supports multiple software sources to ensure your apps are always up to date."
+      },
+      "image": "/images/products/zupdater.png",
+      "githubRepo": "3370tech/zupdater",
+      "download": {
+        "xplaneOrg": "https://store.x-plane.org/TODO_ZUPDATER_LINK",
+        "cdn": "https://cdn.cloverta.top/d/zupdater-latest.zip"
+      },
+      "version": "2.5.0",
+      "tags": ["windows", "mac", "linux", "updater"],
+      "features": [
+        {
+          "zh": "自动检测软件更新",
+          "en": "Automatic update detection"
+        },
+        {
+          "zh": "批量更新管理",
+          "en": "Batch update management"
+        },
+        {
+          "zh": "版本回滚功能",
+          "en": "Version rollback support"
+        },
+        {
+          "zh": "多软件源支持",
+          "en": "Multiple software sources"
+        },
+        {
+          "zh": "更新日志查看",
+          "en": "Update changelog viewer"
+        }
+      ]
+    },
+    {
+      "id": "product-2",
+      "slug": "xfastinstall",
+      "name": {
+        "zh": "XFastInstall",
+        "en": "XFastInstall"
+      },
+      "description": {
+        "zh": "X-Plane 插件智能安装工具",
+        "en": "X-Plane Addon Installer"
+      },
+      "longDescription": {
+        "zh": "XFastInstall 是一款专为 X-Plane 飞行模拟器设计的插件安装工具。只需拖放文件即可自动识别并安装飞机、场景、插件和导航数据。智能检测嵌套插件并自动去重，避免重复安装。安装前会检测冲突并给出警告，让插件管理变得简单安全。支持常见的压缩包格式，Windows 用户还可以通过右键菜单快速安装。",
+        "en": "XFastInstall is an addon installer designed for X-Plane flight simulator. Simply drag and drop files to automatically detect and install Aircraft, Scenery, Plugins, and Navdata. Intelligently detects nested addons and removes duplicates to avoid redundant installations. Checks for conflicts before installation and provides warnings, making addon management simple and safe. Supports common archive formats, with Windows users able to install via right-click context menu."
+      },
+      "image": "/images/products/xfastinstall.png",
+      "githubRepo": "CCA3370/XFastInstall-Tauri",
+      "download": {
+        "xplaneOrg": "https://store.x-plane.org/TODO_XFASTINSTALL_LINK",
+        "cdn": "https://cdn.cloverta.top/d/xfastinstall-latest.zip"
+      },
+      "version": "latest",
+      "tags": ["windows", "mac", "linux", "x-plane", "installer"],
+      "features": [
+        {
+          "zh": "智能检测飞机、场景、插件和导航数据",
+          "en": "Smart detection of Aircraft, Scenery, Plugins, and Navdata"
+        },
+        {
+          "zh": "拖放式安装界面",
+          "en": "Drag & drop installation interface"
+        },
+        {
+          "zh": "支持 .zip、.7z 和 .rar 压缩包",
+          "en": "Supports .zip, .7z, and .rar archives"
+        },
+        {
+          "zh": "深度扫描和嵌套插件去重",
+          "en": "Deep scan and nested addon deduplication"
+        },
+        {
+          "zh": "冲突检测和安装警告",
+          "en": "Conflict detection and installation warnings"
+        },
+        {
+          "zh": "Windows 右键菜单集成（可选）",
+          "en": "Windows context menu integration (optional)"
+        },
+        {
+          "zh": "现代化深色主题界面",
+          "en": "Modern dark theme UI"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,232 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Bento Theme Base */
+  --background: #f5f5f7;
+  --foreground: #1d1d1f;
+
+  /* Solid Surfaces */
+  --card-bg: #ffffff;
+  --card-hover: #ffffff;
+  --border: transparent; /* Clean look, shadows define edges */
+
+  /* Typography */
+  --primary: #1d1d1f;
+  --accent: #0071e3; /* Classic clean blue */
+  --muted: #86868b;
+
+  /* Header & Navigation */
+  --header-bg: rgba(255, 255, 255, 0.85); /* Highly legible, slight translucency */
+
+  /* Buttons */
+  --button-primary-bg: #1d1d1f;
+  --button-primary-text: #ffffff;
+  --button-secondary-bg: #f5f5f7;
+  --button-secondary-text: #1d1d1f;
+  --button-secondary-border: transparent;
+
+  /* Tags & Elements */
+  --tag-bg: #f5f5f7;
+  --tag-text: #1d1d1f;
+
+  /* Effects */
+  --shadow: rgba(0, 0, 0, 0.08);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 8px 16px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.08);
+  --radius-lg: 24px;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  transition: background-color 0.4s ease;
+  overflow-x: hidden;
+}
+
+@layer components {
+  /* Bento Card - Solid, Rounded, Soft Shadow */
+  .bento-card {
+    background-color: var(--card-bg);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.02); /* Very subtle definition */
+  }
+  
+  .bento-card:hover {
+    transform: scale(1.01) translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* Primary Action Button - Pill Shaped */
+  .btn-primary {
+    @apply px-8 py-3.5 font-medium transition-all duration-300 flex items-center justify-center gap-2 text-sm tracking-normal;
+    background: var(--button-primary-bg);
+    color: var(--button-primary-text);
+    border-radius: 9999px; /* Pill shape */
+  }
+  
+  .btn-primary:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  }
+
+  /* Secondary Action Button */
+  .btn-secondary {
+    @apply px-8 py-3.5 font-medium transition-all duration-300 flex items-center justify-center gap-2 text-sm tracking-normal;
+    background: var(--button-secondary-bg);
+    color: var(--button-secondary-text);
+    border-radius: 9999px;
+  }
+
+  .btn-secondary:hover {
+    background: #e8e8ed;
+    transform: scale(1.02);
+  }
+  
+  /* Interactive Image inside Bento Card */
+  .bento-image-wrapper {
+    background: #fbfbfd;
+    transition: background-color 0.3s ease;
+  }
+  .bento-card:hover .bento-image-wrapper {
+    background: #f5f5f7;
+  }
+}
+
+/* Page Transition & Scroll Animations */
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Hide content initially inside sections to prevent FOUC before animation triggers */
+.section .bento-card,
+.section .hero-content > * {
+  opacity: 0;
+}
+
+/* Trigger animation when section becomes active (added by fullpage.js) */
+.section.active .bento-card,
+.section.active .hero-content > * {
+  animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Stagger Delays for Hero Content */
+.section.active .hero-content > *:nth-child(1) { animation-delay: 0.1s; } /* H1 */
+.section.active .hero-content > *:nth-child(2) { animation-delay: 0.2s; } /* P */
+.section.active .hero-content > *:nth-child(3) { animation-delay: 0.4s; } /* Scroll Indicator */
+
+/* Stagger Delays for Bento Grid Cards */
+.section.active .bento-card:nth-of-type(1) { animation-delay: 0.2s; } /* Info Card */
+.section.active .bento-card:nth-of-type(2) { animation-delay: 0.4s; } /* Image Card */
+
+/* Apply theme colors to elements */
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+/* Custom scrollbar for tech theme */
+[data-theme="tech"]::-webkit-scrollbar {
+  width: 10px;
+}
+
+[data-theme="tech"]::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+[data-theme="tech"]::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 5px;
+}
+
+[data-theme="tech"]::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* Smooth transitions for theme changes */
+* {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+}
+
+/* Animation Keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Animation Classes */
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.animate-fade-in-delay {
+  animation: fadeIn 0.6s ease-out 0.2s forwards;
+  opacity: 0;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.8s ease-out forwards;
+}
+
+.animate-slide-up-delay {
+  animation: slideUp 0.8s ease-out 0.3s forwards;
+  opacity: 0;
+}
+
+.animate-slide-up-delay-2 {
+  animation: slideUp 0.8s ease-out 0.5s forwards;
+  opacity: 0;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.6s ease-out forwards;
+}
+
+/* Page transition for language switching */
+body.page-transitioning {
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+}
+
