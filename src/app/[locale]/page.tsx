@@ -1,15 +1,14 @@
 'use client';
 
-import { useTranslations, useLocale } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { getAllProducts } from '@/lib/products';
 import FullPageWrapper from '@/components/FullPageWrapper';
 import ProductSection from '@/components/ProductSection';
 import { ChevronDown } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export default function HomePage() {
   const t = useTranslations('home');
-  const locale = useLocale();
   const products = getAllProducts();
   const [activeSectionIndex, setActiveSectionIndex] = useState(0);
 
@@ -44,11 +43,11 @@ export default function HomePage() {
       {/* Content - Use fixed positioning to work independently of flex layout */}
       <div className="fixed inset-0 z-10 overflow-hidden">
         <FullPageWrapper
-          onLeave={(origin, destination, direction) => {
+          onLeave={(_origin, destination) => {
             setActiveSectionIndex(destination.index);
           }}
         >
-          {(fullpageApi) => (
+          {() => (
             <div className="fullpage-wrapper">
               {/* Hero Section */}
               <div className="section flex items-center justify-center min-h-screen px-4 sm:px-6">
