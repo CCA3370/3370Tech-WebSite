@@ -1,6 +1,6 @@
-import { redirect } from 'next/navigation';
 import { Analytics } from '@vercel/analytics/next';
 import type { Metadata, Viewport } from 'next';
+import './globals.css';
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -27,8 +27,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body>
+    <html lang="en" suppressHydrationWarning>
+      <body className="flex flex-col min-h-screen">
         {children}
         <Analytics />
       </body>

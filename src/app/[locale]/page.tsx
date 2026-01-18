@@ -41,8 +41,8 @@ export default function HomePage() {
         />
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 w-full h-screen overflow-hidden">
+      {/* Content - Use fixed positioning to work independently of flex layout */}
+      <div className="fixed inset-0 z-10 overflow-hidden">
         <FullPageWrapper
           onLeave={(origin, destination, direction) => {
             setActiveSectionIndex(destination.index);

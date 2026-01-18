@@ -39,6 +39,8 @@ export default function FullPageWrapper({ children, onLeave }: FullPageWrapperPr
     <ReactFullpage
       licenseKey={'GPLv3'}
       scrollingSpeed={700}
+      css3={true}
+      easingcss3={'cubic-bezier(0.645, 0.045, 0.355, 1.000)'}
       navigation
       navigationPosition="right"
       showActiveTooltip={false}

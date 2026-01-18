@@ -319,8 +319,8 @@ body.page-transitioning {
     --radius-lg: 12px;
   }
 
-  /* Further reduce animations */
-  * {
+  /* Further reduce animations - exclude fullpage.js */
+  *:not(.fp-section):not(.fp-slide):not(.fp-tableCell):not(.fp-overflow):not(.fullpage-wrapper):not([class*="fp-"]) {
     animation-duration: 0.3s !important;
     transition-duration: 0.2s !important;
   }

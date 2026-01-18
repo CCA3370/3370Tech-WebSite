@@ -4,7 +4,6 @@ import {notFound} from 'next/navigation';
 import {routing, isValidLocale, locales} from '@/i18n/routing';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import '../globals.css';
 
 export function generateStaticParams() {
   return locales.map((locale) => ({locale}));
@@ -26,16 +25,12 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} suppressHydrationWarning>
-      <body className="flex flex-col min-h-screen">
-        <NextIntlClientProvider messages={messages}>
-          <Header />
-          <main className="flex-1">
-            {children}
-          </main>
-          <Footer />
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <NextIntlClientProvider messages={messages}>
+      <Header />
+      <main className="flex-1">
+        {children}
+      </main>
+      <Footer />
+    </NextIntlClientProvider>
   );
 }
