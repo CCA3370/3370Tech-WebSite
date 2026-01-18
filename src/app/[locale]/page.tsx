@@ -51,16 +51,16 @@ export default function HomePage() {
           {(fullpageApi) => (
             <div className="fullpage-wrapper">
               {/* Hero Section */}
-              <div className="section flex items-center justify-center min-h-screen px-4">
-                <div className="text-center space-y-8 max-w-3xl relative z-20 hero-content">
-                  <h1 className="text-6xl md:text-8xl font-bold tracking-tight text-black mb-4 drop-shadow-lg">
+              <div className="section flex items-center justify-center min-h-screen px-4 sm:px-6">
+                <div className="text-center space-y-6 sm:space-y-8 max-w-3xl relative z-20 hero-content">
+                  <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold tracking-tight text-black mb-4 drop-shadow-lg leading-tight">
                     {t('hero.title')}
                   </h1>
-                  <p className="text-2xl md:text-3xl font-medium text-slate-900 max-w-2xl mx-auto leading-normal drop-shadow-md">
+                  <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-medium text-slate-900 max-w-2xl mx-auto leading-normal drop-shadow-md px-4">
                     {t('hero.subtitle')}
                   </p>
-                  
-                  <div className="pt-8">
+
+                  <div className="pt-6 sm:pt-8">
                      <span className="inline-flex items-center justify-center p-3 rounded-full bg-white/90 shadow-sm border border-black/5 text-primary animate-bounce backdrop-blur-sm">
                         <ChevronDown className="w-5 h-5" />
                      </span>

@@ -93,7 +93,7 @@ export default function SmartDownloadButton({ download, productName }: SmartDown
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center px-8 py-4 rounded-full font-medium"
+      <div className="flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 rounded-full font-medium"
         style={{ backgroundColor: 'var(--card-bg)' }}>
         <div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin" />
       </div>
@@ -111,7 +111,9 @@ export default function SmartDownloadButton({ download, productName }: SmartDown
         <button
           onClick={handleMainDownload}
           disabled={mainButtonDisabled}
-          className={`flex-1 flex items-center justify-center gap-3 px-8 py-4 rounded-l-full font-medium transition-all duration-200 ${
+          className={`flex-1 flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 font-medium transition-all duration-200 text-sm sm:text-base ${
+            isChina ? 'rounded-l-full' : 'rounded-full'
+          } ${
             mainButtonDisabled
               ? 'opacity-50 cursor-not-allowed'
               : 'hover:scale-[1.02] active:scale-[0.98]'
@@ -121,10 +123,10 @@ export default function SmartDownloadButton({ download, productName }: SmartDown
             color: '#ffffff',
           }}
         >
-          <Download className="w-5 h-5" />
-          <span>{t.download}</span>
+          <Download className="w-4 h-4 sm:w-5 sm:h-5" />
+          <span className="whitespace-nowrap">{t.download}</span>
           {mainButtonDisabled && (
-            <span className="text-xs opacity-75">({t.placeholder})</span>
+            <span className="text-xs opacity-75 hidden sm:inline">({t.placeholder})</span>
           )}
         </button>
 
@@ -132,7 +134,7 @@ export default function SmartDownloadButton({ download, productName }: SmartDown
         {isChina && (
           <button
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="flex items-center justify-center px-4 rounded-r-full border-l border-white/20 transition-all duration-200 hover:bg-white/10"
+            className="flex items-center justify-center px-3 sm:px-4 rounded-r-full border-l border-white/20 transition-all duration-200 hover:bg-white/10 active:bg-white/20"
             style={{
               backgroundColor: 'var(--accent)',
               color: '#ffffff',
@@ -140,20 +142,9 @@ export default function SmartDownloadButton({ download, productName }: SmartDown
             aria-label="More download options"
           >
             <ChevronDown
-              className={`w-5 h-5 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`}
+              className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`}
             />
           </button>
-        )}
-
-        {/* For non-China: just round the right edge */}
-        {!isChina && (
-          <div
-            className="w-4 rounded-r-full"
-            style={{
-              backgroundColor: mainButtonDisabled ? 'var(--button-primary-bg)' : 'var(--button-primary-bg)',
-              opacity: mainButtonDisabled ? 0.5 : 1,
-            }}
-          />
         )}
       </div>
 
@@ -169,14 +160,14 @@ export default function SmartDownloadButton({ download, productName }: SmartDown
           <button
             onClick={handleAlternativeDownload}
             disabled={isPlaceholder}
-            className={`w-full flex items-center gap-3 px-6 py-4 text-left transition-all duration-200 ${
+            className={`w-full flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 sm:py-4 text-left transition-all duration-200 text-sm sm:text-base ${
               isPlaceholder
                 ? 'opacity-50 cursor-not-allowed'
-                : 'hover:bg-black/5'
+                : 'hover:bg-black/5 active:bg-black/10'
             }`}
             style={{ color: 'var(--foreground)' }}
           >
-            <ExternalLink className="w-5 h-5" style={{ color: 'var(--muted)' }} />
+            <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: 'var(--muted)' }} />
             <div className="flex-1">
               <div className="font-medium">{altLabel}</div>
               {isPlaceholder && (
@@ -190,10 +181,10 @@ export default function SmartDownloadButton({ download, productName }: SmartDown
       )}
 
       {/* Download source indicator */}
-      <div className="mt-3 text-center text-sm" style={{ color: 'var(--muted)' }}>
+      <div className="mt-2 sm:mt-3 text-center text-xs sm:text-sm" style={{ color: 'var(--muted)' }}>
         {t.downloadFrom}: {mainLabel}
         {isChina && !isPlaceholder && (
-          <span className="ml-2 opacity-75">
+          <span className="ml-2 opacity-75 hidden sm:inline">
             ({t.xplaneOrg} {locale === 'zh' ? '可选' : 'available'})
           </span>
         )}

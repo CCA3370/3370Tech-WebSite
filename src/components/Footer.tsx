@@ -6,14 +6,10 @@ export default function Footer() {
   const t = useTranslations('footer');
 
   return (
-    <footer className="py-8 mt-12 mb-4">
-      <div className="container mx-auto px-4 flex flex-col items-center justify-center gap-3">
+    <footer className="pt-2 pb-4">
+      <div className="container mx-auto px-4 flex flex-col items-center justify-center">
         <p className="text-sm font-medium tracking-wide" style={{ color: 'var(--muted)' }}>
-          {t('copyright')}
-        </p>
-        <div className="w-1 h-1 rounded-full bg-neutral-300"></div>
-        <p className="text-xs font-light" style={{ color: 'var(--muted)' }}>
-          {t('builtWith')}
+          © 2026 3370Tech. All rights reserved.
         </p>
       </div>
     </footer>

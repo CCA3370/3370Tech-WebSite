@@ -18,7 +18,7 @@
       "image": "/images/products/zupdater.png",
       "githubRepo": "3370tech/zupdater",
       "download": {
-        "xplaneOrg": "https://store.x-plane.org/TODO_ZUPDATER_LINK",
+        "xplaneOrg": "https://x-plane.org/1",
         "cdn": "https://cdn.cloverta.top/d/zupdater-latest.zip"
       },
       "version": "2.5.0",
@@ -64,7 +64,7 @@
       "image": "/images/products/xfastinstall.png",
       "githubRepo": "CCA3370/XFastInstall-Tauri",
       "download": {
-        "xplaneOrg": "https://store.x-plane.org/TODO_XFASTINSTALL_LINK",
+        "xplaneOrg": "https://x-plane.org/1",
         "cdn": "https://cdn.cloverta.top/d/xfastinstall-latest.zip"
       },
       "version": "latest",
