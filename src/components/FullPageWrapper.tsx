@@ -37,7 +37,7 @@ interface FullPageWrapperProps {
 export default function FullPageWrapper({ children, onLeave }: FullPageWrapperProps) {
   return (
     <ReactFullpage
-      licenseKey={process.env.NEXT_PUBLIC_FULLPAGE_LICENSE || 'OPEN-SOURCE-GPLV3-LICENSE'}
+      licenseKey={'GPLv3'}
       scrollingSpeed={700}
       navigation
       navigationPosition="right"

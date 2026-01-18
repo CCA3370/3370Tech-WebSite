@@ -1,5 +1,25 @@
 import { redirect } from 'next/navigation';
 import { Analytics } from '@vercel/analytics/next';
+import type { Metadata, Viewport } from 'next';
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  themeColor: '#ffffff',
+};
+
+export const metadata: Metadata = {
+  title: 'My Products - Showcase',
+  description: 'Discover amazing software solutions',
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'My Products',
+  },
+};
 
 export default function RootLayout({
   children,
@@ -14,11 +34,4 @@ export default function RootLayout({
       </body>
     </html>
   );
-}
-
-export function generateMetadata() {
-  return {
-    title: 'My Products - Showcase',
-    description: 'Discover amazing software solutions',
-  };
 }

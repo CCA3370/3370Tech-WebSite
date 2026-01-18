@@ -24,8 +24,8 @@ export default function ProductSection({ product, index }: ProductSectionProps) 
         {/* Bento Grid Layout - Large rounded cards */}
         <div className="grid lg:grid-cols-12 gap-4 lg:gap-6 items-center">
 
-          {/* Card 1: Main Info (Span 7 cols) */}
-          <div className={`lg:col-span-7 bento-card p-8 lg:p-10 flex flex-col justify-between ${isReversed ? 'lg:order-2' : 'lg:order-1 order-2'}`}>
+          {/* Card 1: Main Info (Span 7 cols on desktop, full width on mobile) */}
+          <div className={`lg:col-span-7 bento-card p-8 lg:p-10 flex flex-col justify-between ${isReversed ? 'lg:order-2' : 'lg:order-1'}`}>
             <div className="space-y-6">
               <div className="flex flex-col gap-3">
                 <span className="text-sm font-semibold tracking-wide text-neutral-400 uppercase">Product</span>
@@ -68,8 +68,8 @@ export default function ProductSection({ product, index }: ProductSectionProps) 
             </div>
           </div>
 
-          {/* Card 2: Visual Hero (Span 5 cols) */}
-          <div className={`lg:col-span-5 bento-card bento-image-wrapper p-6 lg:p-8 flex items-center justify-center min-h-[320px] lg:min-h-[400px] bg-white/50 backdrop-blur-sm ${isReversed ? 'lg:order-1' : 'lg:order-2 order-1'}`}>
+          {/* Card 2: Visual Hero (Span 5 cols) - Hidden on mobile */}
+          <div className={`hidden lg:block lg:col-span-5 bento-card bento-image-wrapper p-6 lg:p-8 flex items-center justify-center min-h-[320px] lg:min-h-[400px] bg-white/50 backdrop-blur-sm ${isReversed ? 'lg:order-1' : 'lg:order-2'}`}>
              <Image
               src={product.image}
               alt={product.name[locale]}

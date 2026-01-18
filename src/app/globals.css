@@ -45,6 +45,11 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   transition: background-color 0.4s ease;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Prevent text size adjustment on mobile */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 @layer components {
@@ -58,10 +63,21 @@ body {
     overflow: hidden;
     border: 1px solid rgba(0,0,0,0.02); /* Very subtle definition */
   }
-  
-  .bento-card:hover {
-    transform: scale(1.01) translateY(-2px);
-    box-shadow: var(--shadow-lg);
+
+  /* Mobile: Reduce transform on hover for better performance */
+  @media (hover: hover) and (pointer: fine) {
+    .bento-card:hover {
+      transform: scale(1.01) translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+  }
+
+  /* Touch devices: Simpler hover effect */
+  @media (hover: none) {
+    .bento-card:active {
+      transform: scale(0.98);
+      box-shadow: var(--shadow-md);
+    }
   }
 
   /* Primary Action Button - Pill Shaped */
@@ -70,11 +86,22 @@ body {
     background: var(--button-primary-bg);
     color: var(--button-primary-text);
     border-radius: 9999px; /* Pill shape */
+    /* Touch-friendly minimum size */
+    min-height: 44px;
+    min-width: 44px;
   }
-  
-  .btn-primary:hover {
-    transform: scale(1.02);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+
+  @media (hover: hover) and (pointer: fine) {
+    .btn-primary:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    }
+  }
+
+  @media (hover: none) {
+    .btn-primary:active {
+      transform: scale(0.96);
+    }
   }
 
   /* Secondary Action Button */
@@ -83,20 +110,35 @@ body {
     background: var(--button-secondary-bg);
     color: var(--button-secondary-text);
     border-radius: 9999px;
+    /* Touch-friendly minimum size */
+    min-height: 44px;
+    min-width: 44px;
   }
 
-  .btn-secondary:hover {
-    background: #e8e8ed;
-    transform: scale(1.02);
+  @media (hover: hover) and (pointer: fine) {
+    .btn-secondary:hover {
+      background: #e8e8ed;
+      transform: scale(1.02);
+    }
   }
-  
+
+  @media (hover: none) {
+    .btn-secondary:active {
+      background: #e8e8ed;
+      transform: scale(0.96);
+    }
+  }
+
   /* Interactive Image inside Bento Card */
   .bento-image-wrapper {
     background: #fbfbfd;
     transition: background-color 0.3s ease;
   }
-  .bento-card:hover .bento-image-wrapper {
-    background: #f5f5f7;
+
+  @media (hover: hover) and (pointer: fine) {
+    .bento-card:hover .bento-image-wrapper {
+      background: #f5f5f7;
+    }
   }
 }
 
@@ -228,5 +270,100 @@ body {
 body.page-transitioning {
   opacity: 0;
   transition: opacity 0.3s ease-out;
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+  /* Reduce border radius on mobile for better space usage */
+  :root {
+    --radius-lg: 16px;
+  }
+
+  /* Optimize card spacing */
+  .bento-card {
+    border-radius: var(--radius-lg);
+  }
+
+  /* Reduce animation complexity on mobile */
+  .section.active .bento-card,
+  .section.active .hero-content > * {
+    animation-duration: 0.5s;
+  }
+
+  /* Disable backdrop-filter on mobile for better performance */
+  [style*="backdrop-filter"] {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* Optimize button padding for mobile */
+  .btn-primary,
+  .btn-secondary {
+    @apply px-6 py-3 text-sm;
+  }
+
+  /* Reduce shadow complexity on mobile */
+  .bento-card {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  }
+
+  /* Disable parallax on mobile */
+  [style*="background-attachment: fixed"] {
+    background-attachment: scroll !important;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+  :root {
+    --radius-lg: 12px;
+  }
+
+  /* Further reduce animations */
+  * {
+    animation-duration: 0.3s !important;
+    transition-duration: 0.2s !important;
+  }
+
+  /* Optimize text sizes */
+  .btn-primary,
+  .btn-secondary {
+    @apply px-5 py-2.5 text-xs;
+  }
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) {
+  /* Disable hover animations on touch devices */
+  .bento-card,
+  .btn-primary,
+  .btn-secondary {
+    transition: transform 0.2s ease;
+  }
+
+  /* Add tap highlight color */
+  * {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* High DPI screens optimization */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 }
 

@@ -1,6 +1,6 @@
 # 个人产品展示网站
 
-一个基于 Next.js 16 + TypeScript + fullpage.js 的个人产品展示网站，支持中英双语切换和三种主题风格。
+一个基于 Next.js 16 + TypeScript + fullpage.js 的个人产品展示网站，支持中英双语切换
 
 ## 技术栈
 
@@ -19,30 +19,9 @@
 - ✅ 每个产品独立详情页
 - ✅ About 页面（个人介绍 + 社交链接）
 - ✅ 中英双语支持（URL: `/zh/...` 和 `/en/...`）
-- ✅ 三种下载方式：
-  - GitHub Release
-  - 本站直接下载
+- ✅ 2种下载方式：
+  - X-Plane.org
   - 阿里云 CDN 下载
-
-### 主题系统
-提供三种预设主题供选择：
-
-1. **简约现代 (Minimal)**
-   - 纯白背景，黑色主色调
-   - 蓝色强调色
-   - 大号标题，充足留白
-
-2. **科技感 (Tech)**
-   - 深蓝黑背景
-   - 渐变紫蓝主色
-   - 青色强调色
-   - 微弱光晕效果
-
-3. **柔和温暖 (Soft)**
-   - 米白背景
-   - 暖棕主色
-   - 珊瑚色强调色
-   - 圆角设计，柔和阴影
 
 ## 项目结构
 
@@ -220,36 +199,6 @@ const socialLinks: SocialLink[] = [
 本项目使用 `@fullpage/react-fullpage` 的开源 GPLv3 许可证。如果用于商业项目，请购买商业许可证：
 https://alvarotrigo.com/fullPage/pricing/
 
-### CDN 配置
-
-如果使用阿里云 CDN，请确保在 `next.config.js` 中配置了正确的域名：
-
-```javascript
-images: {
-  remotePatterns: [
-    {
-      protocol: 'http',
-      hostname: 'cdn.cloverta.top',
-    },
-  ],
-}
-```
-
-## 部署
-
-### Vercel（推荐）
-
-1. 将代码推送到 GitHub
-2. 在 Vercel 导入项目
-3. 自动部署完成
-
-### 其他平台
-
-```bash
-npm run build
-```
-
-将 `.next` 目录和 `public` 目录部署到服务器。
 
 ## 开发说明
 
@@ -261,8 +210,4 @@ npm run build
 
 ## License
 
-MIT
-
----
-
-**提示**: 这是一个模板项目，请根据实际需求修改内容和样式。
+GPLv3
