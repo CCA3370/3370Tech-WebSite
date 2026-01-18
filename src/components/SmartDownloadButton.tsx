@@ -48,16 +48,63 @@ export default function SmartDownloadButton({ download, productName }: SmartDown
 
   useEffect(() => {
     const detectRegion = async () => {
+      let detectedIsChina = false;
+
+      // 方案1：首先尝试使用更可靠的客户端地理位置API（精准度最高）
       try {
-        const response = await fetch('/api/geo');
-        const data = await response.json();
-        setIsChina(data.isChina);
+        // 如果浏览器支持Geolocation API
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            async (position) => {
+              const { latitude, longitude } = position.coords;
+              // 调用服务端API，基于坐标判断是否在中国
+              try {
+                const response = await fetch('/api/geo', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ latitude, longitude })
+                });
+                const data = await response.json();
+                setIsChina(data.isChina);
+                setIsLoading(false);
+              } catch {
+                // 坐标定位失败，降级到其他方案
+                fallbackDetection();
+              }
+            },
+            () => {
+              // 用户拒绝地理定位或不支持，使用降级方案
+              fallbackDetection();
+            },
+            { timeout: 3000 } // 3秒超时
+          );
+        } else {
+          fallbackDetection();
+        }
       } catch {
-        // 备选方案：使用浏览器时区、语言和其他线索
+        fallbackDetection();
+      }
+
+      async function fallbackDetection() {
+        try {
+          // 方案2：使用服务端CDN头检测
+          const response = await fetch('/api/geo');
+          const data = await response.json();
+          detectedIsChina = data.isChina;
+        } catch {
+          // 方案3：客户端浏览器信息备选
+          detectedIsChina = isClientInChina();
+        } finally {
+          setIsChina(detectedIsChina);
+          setIsLoading(false);
+        }
+      }
+
+      // 客户端检测函数
+      function isClientInChina(): boolean {
         const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         const language = navigator.language || navigator.languages?.[0];
-        
-        // 中国时区列表
+
         const chinaTimezones = [
           'Asia/Shanghai',
           'Asia/Chongqing',
@@ -67,19 +114,15 @@ export default function SmartDownloadButton({ download, productName }: SmartDown
           'Asia/Taipei',
           'Asia/Macau'
         ];
-        
-        // 中文和中国特定语言代码
+
         const chinaLanguages = ['zh', 'zh-CN', 'zh-Hans', 'yue', 'zh-Hant'];
-        
-        // 如果时区或语言匹配，判定为中国
+
         const isTimezoneChina = chinaTimezones.includes(timezone);
-        const isLanguageChina = chinaLanguages.some(lang => 
+        const isLanguageChina = chinaLanguages.some(lang =>
           language?.startsWith(lang.split('-')[0])
         );
-        
-        setIsChina(isTimezoneChina || isLanguageChina);
-      } finally {
-        setIsLoading(false);
+
+        return isTimezoneChina || isLanguageChina;
       }
     };
 
