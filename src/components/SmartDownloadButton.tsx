@@ -100,47 +100,61 @@ export default function SmartDownloadButton({ download, productName }: SmartDown
     );
   }
 
-  // CDN按钮禁用条件：不在中国大陆
-  const cdnDisabled = !isChina;
-
   return (
     <div className="relative" ref={dropdownRef}>
       <div className="flex items-stretch">
-        {/* 主下载按钮 - 始终显示CDN */}
-        <button
-          onClick={handleCdnDownload}
-          disabled={cdnDisabled}
-          className={`flex-1 flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 font-medium transition-all duration-200 text-sm sm:text-base rounded-l-full ${
-            cdnDisabled
-              ? 'opacity-50 cursor-not-allowed'
-              : 'hover:scale-[1.02] active:scale-[0.98]'
-          }`}
-          style={{
-            backgroundColor: 'var(--accent)',
-            color: '#ffffff',
-          }}
-        >
-          <Download className="w-4 h-4 sm:w-5 sm:h-5" />
-          <span className="whitespace-nowrap">{t.download}</span>
-          {cdnDisabled && (
-            <span className="text-xs opacity-75 hidden sm:inline">({t.cdnOnlyInChina})</span>
-          )}
-        </button>
+        {isChina ? (
+          <>
+            {/* 中国用户：CDN按钮 + 下拉选择 */}
+            <button
+              onClick={handleCdnDownload}
+              className="flex-1 flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 font-medium transition-all duration-200 text-sm sm:text-base rounded-l-full hover:scale-[1.02] active:scale-[0.98]"
+              style={{
+                backgroundColor: '#000000',
+                color: '#ffffff',
+              }}
+            >
+              <Download className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span className="whitespace-nowrap">{t.download}</span>
+            </button>
 
-        {/* 下拉箭头 - 始终显示 */}
-        <button
-          onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-          className="flex items-center justify-center px-3 sm:px-4 rounded-r-full border-l border-white/20 transition-all duration-200 hover:bg-white/10 active:bg-white/20"
-          style={{
-            backgroundColor: 'var(--accent)',
-            color: '#ffffff',
-          }}
-          aria-label={t.moreOptions}
-        >
-          <ChevronDown
-            className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`}
-          />
-        </button>
+            {/* 下拉箭头 */}
+            <button
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className="flex items-center justify-center px-3 sm:px-4 rounded-r-full border-l border-white/20 transition-all duration-200 hover:bg-white/10 active:bg-white/20"
+              style={{
+                backgroundColor: '#000000',
+                color: '#ffffff',
+              }}
+              aria-label={t.moreOptions}
+            >
+              <ChevronDown
+                className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`}
+              />
+            </button>
+          </>
+        ) : (
+          /* 非中国用户：直接X-Plane.org下载 */
+          <button
+            onClick={handleXplaneOrgDownload}
+            disabled={isPlaceholder}
+            className={`flex-1 flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 font-medium transition-all duration-200 text-sm sm:text-base rounded-full ${
+              isPlaceholder
+                ? 'opacity-50 cursor-not-allowed'
+                : 'hover:scale-[1.02] active:scale-[0.98]'
+            }`}
+            style={{
+              backgroundColor: '#000000',
+              color: '#ffffff',
+            }}
+          >
+            <Download className="w-4 h-4 sm:w-5 sm:h-5" />
+            <span className="whitespace-nowrap">{locale === 'zh' ? '下载' : 'Download'}</span>
+            {isPlaceholder && (
+              <span className="text-xs opacity-75 hidden sm:inline">({t.placeholder})</span>
+            )}
+          </button>
+        )}
       </div>
 
       {/* 下拉菜单 */}
@@ -177,8 +191,8 @@ export default function SmartDownloadButton({ download, productName }: SmartDown
 
       {/* 下载来源指示器 */}
       <div className="mt-2 sm:mt-3 text-center text-xs sm:text-sm" style={{ color: 'var(--muted)' }}>
-        {t.downloadFrom}: {t.cdn}
-        {!isPlaceholder && (
+        {t.downloadFrom}: {isChina ? t.cdn : t.xplaneOrg}
+        {isChina && !isPlaceholder && (
           <span className="ml-2 opacity-75 hidden sm:inline">
             ({t.xplaneOrg} {locale === 'zh' ? '可选' : 'available'})
           </span>
