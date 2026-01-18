@@ -53,10 +53,31 @@ export default function SmartDownloadButton({ download, productName }: SmartDown
         const data = await response.json();
         setIsChina(data.isChina);
       } catch {
-        // Fallback: use browser timezone to estimate
+        // 备选方案：使用浏览器时区、语言和其他线索
         const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        const chinaTimezones = ['Asia/Shanghai', 'Asia/Chongqing', 'Asia/Harbin', 'Asia/Urumqi'];
-        setIsChina(chinaTimezones.includes(timezone));
+        const language = navigator.language || navigator.languages?.[0];
+        
+        // 中国时区列表
+        const chinaTimezones = [
+          'Asia/Shanghai',
+          'Asia/Chongqing',
+          'Asia/Harbin',
+          'Asia/Urumqi',
+          'Asia/Hong_Kong',
+          'Asia/Taipei',
+          'Asia/Macau'
+        ];
+        
+        // 中文和中国特定语言代码
+        const chinaLanguages = ['zh', 'zh-CN', 'zh-Hans', 'yue', 'zh-Hant'];
+        
+        // 如果时区或语言匹配，判定为中国
+        const isTimezoneChina = chinaTimezones.includes(timezone);
+        const isLanguageChina = chinaLanguages.some(lang => 
+          language?.startsWith(lang.split('-')[0])
+        );
+        
+        setIsChina(isTimezoneChina || isLanguageChina);
       } finally {
         setIsLoading(false);
       }
