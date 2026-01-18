@@ -2,52 +2,6 @@
   "products": [
     {
       "id": "product-1",
-      "slug": "zupdater",
-      "name": {
-        "zh": "ZUpdater",
-        "en": "ZUpdater"
-      },
-      "description": {
-        "zh": "智能软件更新管理工具",
-        "en": "Intelligent Software Update Manager"
-      },
-      "longDescription": {
-        "zh": "ZUpdater 是一款专业的软件更新管理工具，帮助您轻松管理所有应用程序的更新。自动检测可用更新、批量更新、版本回滚等功能，让软件管理变得简单高效。支持多种软件源，确保您的应用始终保持最新状态。",
-        "en": "ZUpdater is a professional software update management tool that helps you easily manage updates for all your applications. Features include automatic update detection, batch updates, version rollback, and more, making software management simple and efficient. Supports multiple software sources to ensure your apps are always up to date."
-      },
-      "image": "/images/products/zupdater.png",
-      "githubRepo": "3370tech/zupdater",
-      "download": {
-        "xplaneOrg": "https://x-plane.org/1",
-        "cdn": "https://cdn.cloverta.top/d/zupdater-latest.zip"
-      },
-      "version": "2.5.0",
-      "tags": ["windows", "mac", "linux", "updater"],
-      "features": [
-        {
-          "zh": "自动检测软件更新",
-          "en": "Automatic update detection"
-        },
-        {
-          "zh": "批量更新管理",
-          "en": "Batch update management"
-        },
-        {
-          "zh": "版本回滚功能",
-          "en": "Version rollback support"
-        },
-        {
-          "zh": "多软件源支持",
-          "en": "Multiple software sources"
-        },
-        {
-          "zh": "更新日志查看",
-          "en": "Update changelog viewer"
-        }
-      ]
-    },
-    {
-      "id": "product-2",
       "slug": "xfastinstall",
       "name": {
         "zh": "XFastInstall",
@@ -64,11 +18,11 @@
       "image": "/images/products/xfastinstall.png",
       "githubRepo": "CCA3370/XFastInstall-Tauri",
       "download": {
-        "xplaneOrg": "https://x-plane.org/1",
+        "xplaneOrg": "https://x-plane.org/",
         "cdn": "https://cdn.cloverta.top/d/xfastinstall-latest.zip"
       },
       "version": "latest",
-      "tags": ["windows", "mac", "linux", "x-plane", "installer"],
+      "tags": ["Windows", "X-Plane", "Installer", "Intelligent"],
       "features": [
         {
           "zh": "智能检测飞机、场景、插件和导航数据",
@@ -97,6 +51,52 @@
         {
           "zh": "现代化深色主题界面",
           "en": "Modern dark theme UI"
+        }
+      ]
+    },
+    {
+      "id": "product-2",
+      "slug": "zupdater",
+      "name": {
+        "zh": "ZUpdater",
+        "en": "ZUpdater"
+      },
+      "description": {
+        "zh": "Zibo 737 智能更新管理工具",
+        "en": "Zibo 737 Update Manager"
+      },
+      "longDescription": {
+        "zh": "ZUpdater 是专为 Zibo 737 飞行模拟器模组开发的智能更新管理工具。自动检测、下载和安装最新的 Zibo 737 更新，避免繁琐的手动管理。支持快速更新、版本管理和一键回滚等功能，让您的 Zibo 737 始终保持最新状态，享受最新的飞行体验和功能改进。",
+        "en": "ZUpdater is an intelligent update management tool designed specifically for the Zibo 737 flight simulator mod. Automatically detect, download, and install the latest Zibo 737 updates without the hassle of manual management. Features include quick updates, version management, one-click rollback, and more, ensuring your Zibo 737 stays up to date and you enjoy the latest flight experience and improvements."
+      },
+      "image": "/images/products/zupdater.png",
+      "githubRepo": "3370tech/zupdater",
+      "download": {
+        "xplaneOrg": "https://x-plane.org/",
+        "cdn": "https://cdn.cloverta.top/d/zupdater-latest.zip"
+      },
+      "version": "2.5.0",
+      "tags": ["Windows", "X-Plane", "Zibo737", "Updater"],
+      "features": [
+        {
+          "zh": "自动检测软件更新",
+          "en": "Automatic update detection"
+        },
+        {
+          "zh": "批量更新管理",
+          "en": "Batch update management"
+        },
+        {
+          "zh": "版本回滚功能",
+          "en": "Version rollback support"
+        },
+        {
+          "zh": "多软件源支持",
+          "en": "Multiple software sources"
+        },
+        {
+          "zh": "更新日志查看",
+          "en": "Update changelog viewer"
         }
       ]
     }
