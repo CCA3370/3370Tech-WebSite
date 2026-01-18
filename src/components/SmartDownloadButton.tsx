@@ -14,26 +14,25 @@ interface SmartDownloadButtonProps {
 const translations = {
   zh: {
     download: '下载',
-    downloadFrom: '下载自',
+    downloadFrom: '下载来源',
     cdn: 'CDN 高速下载',
     xplaneOrg: 'X-Plane.org',
-    cdnRecommended: 'CDN 高速下载（推荐）',
-    xplaneOrgAlt: '从 X-Plane.org 下载',
+    cdnRecommended: 'CDN 高速下载',
+    xplaneOrgAlt: 'X-Plane.org 官方下载',
     notAvailable: '不可用',
     placeholder: '链接待添加',
+    moreOptions: '更多下载选项',
   },
   en: {
     download: 'Download',
-    downloadFrom: 'Download from',
+    downloadFrom: 'Download Source',
     cdn: 'CDN Download',
     xplaneOrg: 'X-Plane.org',
-    cdnRecommended: 'CDN Download (Recommended)',
-    xplaneOrgAlt: 'Download from X-Plane.org',
+    cdnRecommended: 'CDN Download',
+    xplaneOrgAlt: 'Official X-Plane.org',
     notAvailable: 'Not Available',
     placeholder: 'Link coming soon',
-  },
-};
-
+    moreOptions: 'More download options',
 export default function SmartDownloadButton({ download, productName }: SmartDownloadButtonProps) {
   const rawLocale = useLocale();
   const locale: Locale = isValidLocale(rawLocale) ? rawLocale : 'zh';
@@ -139,7 +138,7 @@ export default function SmartDownloadButton({ download, productName }: SmartDown
               backgroundColor: 'var(--accent)',
               color: '#ffffff',
             }}
-            aria-label="More download options"
+            aria-label={t.moreOptions}
           >
             <ChevronDown
               className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`}

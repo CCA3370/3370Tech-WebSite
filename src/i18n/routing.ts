@@ -6,7 +6,7 @@ export type Locale = (typeof locales)[number];
 
 export const routing = defineRouting({
   locales,
-  defaultLocale: 'zh'
+  defaultLocale: 'en'
 });
 
 export function isValidLocale(locale: string): locale is Locale {
