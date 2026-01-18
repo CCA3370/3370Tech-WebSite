@@ -198,7 +198,7 @@ export default function SmartDownloadButton({ download, productName }: SmartDown
             </button>
           </>
         ) : (
-          /* 非中国用户：直接X-Plane.org下载 */
+          /* 非中国用户：只显示X-Plane.org下载 */
           <button
             onClick={handleXplaneOrgDownload}
             disabled={isPlaceholder}
@@ -255,11 +255,19 @@ export default function SmartDownloadButton({ download, productName }: SmartDown
 
       {/* 下载来源指示器 */}
       <div className="mt-2 sm:mt-3 text-center text-xs sm:text-sm" style={{ color: 'var(--muted)' }}>
-        {t.downloadFrom}: {isChina ? t.cdn : t.xplaneOrg}
-        {isChina && !isPlaceholder && (
-          <span className="ml-2 opacity-75 hidden sm:inline">
-            ({t.xplaneOrg} {locale === 'zh' ? '可选' : 'available'})
-          </span>
+        {isChina ? (
+          <>
+            {t.downloadFrom}: {t.cdn}
+            {!isPlaceholder && (
+              <span className="ml-2 opacity-75 hidden sm:inline">
+                ({t.xplaneOrg} {locale === 'zh' ? '可选' : 'available'})
+              </span>
+            )}
+          </>
+        ) : (
+          <>
+            {t.downloadFrom}: {t.xplaneOrg}
+          </>
         )}
       </div>
     </div>
