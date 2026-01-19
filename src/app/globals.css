@@ -190,7 +190,8 @@ body {
 
 /* Animation for sections - controlled by React state */
 .hero-content .animate-item,
-.section-active .bento-card {
+.bento-card.slide-from-left,
+.bento-card.slide-from-right {
   opacity: 0;
 }
 
@@ -245,6 +246,12 @@ body {
   transition-property: background-color, border-color, color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 200ms;
+}
+
+/* Ensure animations are not affected by transition rules */
+.animate-item,
+.bento-card {
+  transition-property: none;
 }
 
 /* Animation Keyframes */
@@ -325,10 +332,34 @@ body.page-transitioning {
     border-radius: var(--radius-lg);
   }
 
-  /* Reduce animation complexity on mobile */
+  /* Adjust animation duration on mobile for better experience */
   .hero-content .animate-item,
   .section-active .bento-card {
-    animation-duration: 0.5s;
+    animation-duration: 0.7s;
+  }
+
+  /* Slow down Tailwind's built-in animations on mobile */
+  .animate-bounce,
+  span.animate-bounce,
+  div.animate-bounce {
+    animation-duration: 1.2s !important;
+  }
+
+  .animate-ping,
+  span.animate-ping,
+  div.animate-ping {
+    animation-duration: 1.5s !important;
+  }
+
+  .animate-pulse,
+  span.animate-pulse,
+  div.animate-pulse {
+    animation-duration: 2.5s !important;
+  }
+
+  .animate-float,
+  div.animate-float {
+    animation-duration: 7s !important;
   }
 
   /* Disable backdrop-filter on mobile for better performance */
@@ -360,8 +391,38 @@ body.page-transitioning {
     --radius-lg: 12px;
   }
 
-  /* Further reduce animations - exclude fullpage.js */
-  *:not(.fp-section):not(.fp-slide):not(.fp-tableCell):not(.fp-overflow):not(.fullpage-wrapper):not([class*="fp-"]) {
+  /* Adjust main animation duration for small screens */
+  .hero-content .animate-item,
+  .section-active .bento-card {
+    animation-duration: 0.6s;
+  }
+
+  /* Slow down Tailwind's built-in animations on small screens */
+  .animate-bounce,
+  span.animate-bounce,
+  div.animate-bounce {
+    animation-duration: 1.4s !important;
+  }
+
+  .animate-ping,
+  span.animate-ping,
+  div.animate-ping {
+    animation-duration: 1.8s !important;
+  }
+
+  .animate-pulse,
+  span.animate-pulse,
+  div.animate-pulse {
+    animation-duration: 2.8s !important;
+  }
+
+  .animate-float,
+  div.animate-float {
+    animation-duration: 7.5s !important;
+  }
+
+  /* Further reduce animations - exclude fullpage.js and our main animations */
+  *:not(.fp-section):not(.fp-slide):not(.fp-tableCell):not(.fp-overflow):not(.fullpage-wrapper):not([class*="fp-"]):not(.animate-item):not(.bento-card):not(.hero-content):not(.animate-bounce):not(.animate-ping):not(.animate-pulse):not(.animate-float):not([class*="animate-"]) {
     animation-duration: 0.3s !important;
     transition-duration: 0.2s !important;
   }
@@ -375,9 +436,10 @@ body.page-transitioning {
 
 /* Reduce motion for users who prefer it */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  /* Exclude our main page animations from motion reduction */
+  *:not(.animate-item):not(.bento-card):not(.hero-content):not([class*="slide-from"]):not(.animate-bounce):not(.animate-ping):not(.animate-pulse):not(.animate-float):not([class*="animate-"]),
+  *:not(.animate-item):not(.bento-card):not(.hero-content):not([class*="slide-from"]):not(.animate-bounce):not(.animate-ping):not(.animate-pulse):not(.animate-float):not([class*="animate-"])::before,
+  *:not(.animate-item):not(.bento-card):not(.hero-content):not([class*="slide-from"]):not(.animate-bounce):not(.animate-ping):not(.animate-pulse):not(.animate-float):not([class*="animate-"])::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;

@@ -25,7 +25,9 @@ export default function ProductSection({ product, index, isActive = false }: Pro
 
   return (
     <div className="section flex items-center justify-center min-h-screen px-4 sm:px-6 py-12 sm:py-16">
-      <div className={`container mx-auto max-w-6xl w-full ${isActive ? 'section-active' : ''}`}>
+      <div
+        className={`container mx-auto max-w-6xl w-full ${isActive ? 'section-active' : ''}`}
+      >
         {/* Bento Grid Layout - Large rounded cards */}
         <div className="grid lg:grid-cols-12 gap-4 lg:gap-6 items-center">
 
