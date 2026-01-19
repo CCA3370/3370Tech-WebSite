@@ -18,7 +18,8 @@
       "Bash(npm view:*)",
       "Bash(ls:*)",
       "Bash(timeout:*)",
-      "Bash(del \"C:\\\\Users\\\\Administrator\\\\Desktop\\\\mysite\\\\src\\\\middleware.ts\")"
+      "Bash(del \"C:\\\\Users\\\\Administrator\\\\Desktop\\\\mysite\\\\src\\\\middleware.ts\")",
+      "WebSearch"
     ]
   }
 }

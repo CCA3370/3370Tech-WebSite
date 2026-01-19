@@ -67,7 +67,8 @@ body {
   /* Mobile: Reduce transform on hover for better performance */
   @media (hover: hover) and (pointer: fine) {
     .bento-card:hover {
-      box-shadow: var(--shadow-md);
+      transform: scale(1.01) translateY(-2px);
+      box-shadow: var(--shadow-lg);
     }
   }
 
