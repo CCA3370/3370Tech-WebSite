@@ -3,7 +3,7 @@
 import { useLocale } from 'next-intl';
 import { useRouter, usePathname } from 'next/navigation';
 import { Globe } from 'lucide-react';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 export default function LanguageSwitcher() {
   const locale = useLocale();
@@ -11,6 +11,12 @@ export default function LanguageSwitcher() {
   const pathname = usePathname();
   const [isHovered, setIsHovered] = useState(false);
   const [isSwitching, setIsSwitching] = useState(false);
+
+  // Remove transition class when component mounts (after navigation completes)
+  useEffect(() => {
+    document.body.classList.remove('page-transitioning');
+    setIsSwitching(false);
+  }, [pathname]);
 
   const switchLanguage = useCallback(() => {
     if (isSwitching) return;

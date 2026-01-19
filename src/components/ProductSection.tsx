@@ -69,13 +69,13 @@ export default function ProductSection({ product, index }: ProductSectionProps) 
           </div>
 
           {/* Card 2: Visual Hero (Span 5 cols) - Hidden on mobile */}
-          <div className={`hidden lg:block lg:col-span-5 bento-card bento-image-wrapper p-6 lg:p-8 flex items-center justify-center min-h-[320px] lg:min-h-[400px] bg-white/50 backdrop-blur-sm ${isReversed ? 'lg:order-1' : 'lg:order-2'}`}>
+          <div className={`hidden lg:flex lg:col-span-5 bento-card p-6 lg:p-8 items-center justify-center min-h-[320px] lg:min-h-[400px] ${isReversed ? 'lg:order-1' : 'lg:order-2'}`} style={{ backgroundColor: '#faf8f5' }}>
              <Image
               src={product.image}
               alt={product.name[locale]}
               width={500}
               height={500}
-              className="object-contain w-full h-full drop-shadow-xl transition-transform duration-500 ease-out hover:scale-105"
+              className="object-contain w-full h-full drop-shadow-lg"
             />
           </div>
 
