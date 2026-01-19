@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getLatestRelease, extractVersionFromTag } from '@/lib/github';
+import { getVersionInfo, extractVersionFromTag } from '@/lib/github';
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const repo = searchParams.get('repo');
-  const includePrerelease = searchParams.get('includePrerelease') === 'true';
 
   if (!repo) {
     return NextResponse.json(
@@ -24,24 +23,40 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const release = await getLatestRelease(owner, repoName, includePrerelease);
+    const { latest, latestStable } = await getVersionInfo(owner, repoName);
 
-    if (!release) {
+    if (!latest) {
       return NextResponse.json(
         { error: 'Failed to fetch release information' },
         { status: 404 }
       );
     }
 
-    const version = extractVersionFromTag(release.tag_name);
+    const response: {
+      version: string;
+      isPrerelease: boolean;
+      tagName: string;
+      publishedAt: string;
+      url: string;
+      stableVersion?: string;
+      stableTagName?: string;
+      stableUrl?: string;
+    } = {
+      version: extractVersionFromTag(latest.tag_name),
+      isPrerelease: latest.prerelease,
+      tagName: latest.tag_name,
+      publishedAt: latest.published_at,
+      url: latest.html_url
+    };
 
-    return NextResponse.json({
-      version,
-      isPrerelease: release.prerelease,
-      tagName: release.tag_name,
-      publishedAt: release.published_at,
-      url: release.html_url
-    });
+    // If latest is prerelease and there's a stable version, include it
+    if (latest.prerelease && latestStable && latestStable.tag_name !== latest.tag_name) {
+      response.stableVersion = extractVersionFromTag(latestStable.tag_name);
+      response.stableTagName = latestStable.tag_name;
+      response.stableUrl = latestStable.html_url;
+    }
+
+    return NextResponse.json(response);
   } catch (error) {
     console.error('Error in github-version API:', error);
     return NextResponse.json(

@@ -9,6 +9,7 @@ import { isValidLocale, type Locale } from '@/i18n/routing';
 interface SmartDownloadButtonProps {
   download: DownloadLinks;
   productName: string;
+  available?: boolean;
 }
 
 const translations = {
@@ -21,6 +22,7 @@ const translations = {
     placeholder: '链接待添加',
     moreOptions: '更多下载选项',
     cdnOnlyInChina: '仅限中国大陆可用',
+    productNotAvailable: '暂不提供下载',
   },
   en: {
     download: 'CDN Download',
@@ -31,10 +33,11 @@ const translations = {
     placeholder: 'Link coming soon',
     moreOptions: 'More download options',
     cdnOnlyInChina: 'Available in China only',
+    productNotAvailable: 'Not Available',
   },
 };
 
-export default function SmartDownloadButton({ download, productName }: SmartDownloadButtonProps) {
+export default function SmartDownloadButton({ download, productName, available = true }: SmartDownloadButtonProps) {
   const rawLocale = useLocale();
   const locale: Locale = isValidLocale(rawLocale) ? rawLocale : 'en';
   const t = translations[locale];
@@ -160,6 +163,16 @@ export default function SmartDownloadButton({ download, productName }: SmartDown
       <div className="flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 rounded-full font-medium"
         style={{ backgroundColor: 'var(--card-bg)' }}>
         <div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (!available) {
+    return (
+      <div className="flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 rounded-full font-medium text-sm sm:text-base opacity-50 cursor-not-allowed"
+        style={{ backgroundColor: 'var(--card-bg)', color: 'var(--foreground)' }}>
+        <Download className="w-4 h-4 sm:w-5 sm:h-5" />
+        <span className="whitespace-nowrap">{t.productNotAvailable}</span>
       </div>
     );
   }

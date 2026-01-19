@@ -1,5 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 import SocialLinks from '@/components/SocialLinks';
+import { Mail } from 'lucide-react';
 
 export default async function AboutPage() {
   const t = await getTranslations('about');
@@ -14,7 +15,7 @@ export default async function AboutPage() {
         <div className="absolute bottom-1/3 left-1/2 w-96 h-96 bg-purple-400/20 rounded-full mix-blend-multiply filter blur-3xl animate-float" style={{ animationDelay: '4s' }}></div>
       </div>
 
-      <div className="pt-28 sm:pt-32 md:pt-36 px-4 sm:px-6">
+      <div className="pt-28 sm:pt-32 md:pt-36 px-4 sm:px-6 pb-16">
         <div className="container mx-auto max-w-4xl">
           <div className="text-center flex flex-col items-center">
             {/* Badge - Enlarged */}
@@ -30,18 +31,62 @@ export default async function AboutPage() {
             <div className="relative mb-8 sm:mb-10 animate-scale-in">
               <div className="absolute inset-0 bg-gradient-to-br from-green-400/30 to-blue-400/30 rounded-full blur-2xl animate-pulse"></div>
               <div className="relative w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 mx-auto rounded-full flex items-center justify-center text-5xl sm:text-6xl shadow-2xl border-4 border-white/50" style={{ background: 'var(--button-primary-bg)' }}>
-                👋
+                ✈️
               </div>
             </div>
 
-            {/* Description Card */}
-            <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-8 sm:p-10 md:p-12 border border-black/5 shadow-xl mb-8 sm:mb-10 animate-slide-up" style={{ animationDelay: '0.2s' }}>
-              <p
-                className="text-lg sm:text-xl md:text-2xl leading-relaxed"
-                style={{ color: 'var(--foreground)' }}
-              >
-                {t('description')}
-              </p>
+            {/* Main Info Card */}
+            <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-2 sm:p-3 border border-black/5 shadow-xl mb-8 sm:mb-10 animate-slide-up w-full" style={{ animationDelay: '0.2s' }}>
+              <div className="bg-black/[0.04] rounded-2xl p-6 sm:p-8 md:p-10" style={{ boxShadow: 'inset 0 4px 16px rgba(0,0,0,0.1)' }}>
+                {/* Description */}
+                <p
+                  className="text-lg sm:text-xl md:text-2xl leading-relaxed mb-8 sm:mb-10"
+                  style={{ color: 'var(--foreground)' }}
+                >
+                  {t('description')}
+                </p>
+
+                {/* Developer & Mission */}
+                <div className="grid sm:grid-cols-2 gap-6 sm:gap-8 pt-6 sm:pt-8 border-t border-black/10">
+                  {/* Developer */}
+                  <div>
+                    <div className="text-sm font-semibold uppercase tracking-wider text-green-600 mb-2">
+                      {t('developer')}
+                    </div>
+                    <div className="text-2xl sm:text-3xl font-bold" style={{ color: 'var(--foreground)' }}>
+                      {t('developerName')}
+                    </div>
+                  </div>
+
+                  {/* Mission */}
+                  <div>
+                    <div className="text-sm font-semibold uppercase tracking-wider text-blue-600 mb-2">
+                      {t('mission')}
+                    </div>
+                    <div className="text-base sm:text-lg leading-relaxed" style={{ color: 'var(--foreground)' }}>
+                      {t('missionText')}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Contact Card */}
+            <div className="w-full mb-10 sm:mb-12 animate-slide-up" style={{ animationDelay: '0.35s' }}>
+              <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-black/5 shadow-lg">
+                <div className="text-sm font-semibold uppercase tracking-wider text-purple-600 mb-4">
+                  {t('contact')}
+                </div>
+                <a
+                  href={`mailto:${t('email')}`}
+                  className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-purple-500/10 to-blue-500/10 border border-purple-500/20 hover:from-purple-500/20 hover:to-blue-500/20 transition-all duration-300 group"
+                >
+                  <Mail className="w-5 h-5 text-purple-600" />
+                  <span className="text-base sm:text-lg font-medium" style={{ color: 'var(--foreground)' }}>
+                    {t('email')}
+                  </span>
+                </a>
+              </div>
             </div>
 
             {/* Social Links Section */}
@@ -57,13 +102,6 @@ export default async function AboutPage() {
               </div>
 
               <SocialLinks />
-
-              {/* Additional Info */}
-              <div className="mt-6">
-                <p className="text-sm text-muted">
-                  Let's connect and build amazing things together! 🚀
-                </p>
-              </div>
             </div>
           </div>
         </div>

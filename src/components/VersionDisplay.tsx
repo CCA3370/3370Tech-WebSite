@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 
 interface VersionDisplayProps {
   productSlug: string;
@@ -9,16 +9,28 @@ interface VersionDisplayProps {
   githubRepo?: string;
 }
 
+const translations = {
+  zh: {
+    stable: '稳定版',
+  },
+  en: {
+    stable: 'Stable',
+  },
+};
+
 export default function VersionDisplay({
   productSlug,
   defaultVersion = 'latest',
   githubRepo
 }: VersionDisplayProps) {
   const t = useTranslations('product');
+  const locale = useLocale() as 'zh' | 'en';
+  const localT = translations[locale] || translations.en;
+
   const [version, setVersion] = useState<string>(defaultVersion);
-  const [includePrerelease, setIncludePrerelease] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isPrerelease, setIsPrerelease] = useState(false);
+  const [stableVersion, setStableVersion] = useState<string | null>(null);
 
   useEffect(() => {
     if (!githubRepo) return;
@@ -27,13 +39,14 @@ export default function VersionDisplay({
       setLoading(true);
       try {
         const response = await fetch(
-          `/api/github-version?repo=${encodeURIComponent(githubRepo)}&includePrerelease=${includePrerelease}`
+          `/api/github-version?repo=${encodeURIComponent(githubRepo)}`
         );
 
         if (response.ok) {
           const data = await response.json();
           setVersion(data.version);
           setIsPrerelease(data.isPrerelease || false);
+          setStableVersion(data.stableVersion || null);
         } else {
           console.error('Failed to fetch version:', response.status, response.statusText);
         }
@@ -45,7 +58,7 @@ export default function VersionDisplay({
     };
 
     fetchVersion();
-  }, [githubRepo, includePrerelease]);
+  }, [githubRepo]);
 
   if (!githubRepo) {
     return (
@@ -56,36 +69,26 @@ export default function VersionDisplay({
   }
 
   return (
-    <div className="mt-2 space-y-2">
-      <div className="flex items-center gap-3">
-        <p style={{ color: 'var(--muted)' }}>
-          {t('version')}: {loading ? '...' : version}
-          {isPrerelease && (
-            <span
-              className="ml-2 px-3 py-0.5 text-[10px] uppercase tracking-wider font-bold rounded-full"
-              style={{
-                backgroundColor: 'var(--accent)',
-                color: 'white'
-              }}
-            >
-              Pre-release
-            </span>
-          )}
+    <div className="mt-2 space-y-1">
+      <p style={{ color: 'var(--muted)' }}>
+        {t('version')}: {loading ? '...' : version}
+        {isPrerelease && (
+          <span
+            className="ml-2 px-3 py-0.5 text-[10px] uppercase tracking-wider font-bold rounded-full"
+            style={{
+              backgroundColor: 'var(--accent)',
+              color: 'white'
+            }}
+          >
+            Pre-release
+          </span>
+        )}
+      </p>
+      {isPrerelease && stableVersion && (
+        <p className="text-sm" style={{ color: 'var(--muted)' }}>
+          {localT.stable}: {stableVersion}
         </p>
-      </div>
-
-      <label className="flex items-center gap-2 cursor-pointer">
-        <input
-          type="checkbox"
-          checked={includePrerelease}
-          onChange={(e) => setIncludePrerelease(e.target.checked)}
-          className="w-4 h-4 rounded cursor-pointer"
-          style={{ accentColor: 'var(--accent)' }}
-        />
-        <span className="text-sm" style={{ color: 'var(--muted)' }}>
-          {t('includePrerelease')}
-        </span>
-      </label>
+      )}
     </div>
   );
 }

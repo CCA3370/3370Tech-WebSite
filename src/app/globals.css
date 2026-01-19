@@ -146,34 +146,75 @@ body {
 @keyframes slideUpFade {
   from {
     opacity: 0;
-    transform: translateY(40px) scale(0.96);
+    transform: translateY(-20px);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
   }
 }
 
-/* Hide content initially inside sections to prevent FOUC before animation triggers */
-.section .bento-card,
-.section .hero-content > * {
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Hide scrollbar in fullpage sections while keeping overflow behavior */
+.fp-overflow {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.fp-overflow::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Animation for sections - controlled by React state */
+.hero-content .animate-item,
+.section-active .bento-card {
   opacity: 0;
 }
 
-/* Trigger animation when section becomes active (added by fullpage.js) */
-.section.active .bento-card,
-.section.active .hero-content > * {
+.hero-content.section-active .animate-item {
   animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+/* Product cards slide in from left/right */
+.section-active .bento-card.slide-from-left {
+  animation: slideInFromLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.section-active .bento-card.slide-from-right {
+  animation: slideInFromRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 /* Stagger Delays for Hero Content */
-.section.active .hero-content > *:nth-child(1) { animation-delay: 0.1s; } /* H1 */
-.section.active .hero-content > *:nth-child(2) { animation-delay: 0.2s; } /* P */
-.section.active .hero-content > *:nth-child(3) { animation-delay: 0.4s; } /* Scroll Indicator */
+.hero-content.section-active .animate-item:nth-child(1) { animation-delay: 0.1s; }
+.hero-content.section-active .animate-item:nth-child(2) { animation-delay: 0.2s; }
+.hero-content.section-active .animate-item:nth-child(3) { animation-delay: 0.4s; }
 
 /* Stagger Delays for Bento Grid Cards */
-.section.active .bento-card:nth-of-type(1) { animation-delay: 0.2s; } /* Info Card */
-.section.active .bento-card:nth-of-type(2) { animation-delay: 0.4s; } /* Image Card */
+.section-active .bento-card.slide-from-left { animation-delay: 0.1s; }
+.section-active .bento-card.slide-from-right { animation-delay: 0.3s; }
 
 /* Apply theme colors to elements */
 body {
@@ -285,8 +326,8 @@ body.page-transitioning {
   }
 
   /* Reduce animation complexity on mobile */
-  .section.active .bento-card,
-  .section.active .hero-content > * {
+  .hero-content .animate-item,
+  .section-active .bento-card {
     animation-duration: 0.5s;
   }
 

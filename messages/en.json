@@ -11,7 +11,8 @@
       "scrollDown": "Scroll Down"
     },
     "learnMore": "Learn More",
-    "quickDownload": "Quick Download"
+    "quickDownload": "Quick Download",
+    "notAvailable": "Not Available"
   },
   "product": {
     "version": "Version",
@@ -19,13 +20,19 @@
     "downloads": "Downloads",
     "features": "Features",
     "backToHome": "Back to Home",
-    "includePrerelease": "Include pre-release versions"
+    "includePrerelease": "Include pre-release versions",
+    "notAvailable": "Not Available"
   },
   "about": {
     "title": "About Us",
-    "description": "3370Tech is dedicated to providing efficient and reliable software tools. Our products focus on software management and deployment, helping users simplify workflows and improve efficiency.",
-    "contact": "Contact",
-    "email": "contact@3370.tech",
+    "description": "3370Tech was founded by developer CCA3370, focusing on tools and plugins for the X-Plane flight simulation ecosystem. We are dedicated to creating a more convenient and efficient flight experience for simulation enthusiasts, ensuring every virtual captain enjoys a comfortable simulation environment.",
+    "developer": "Lead Developer",
+    "developerName": "CCA3370",
+    "mission": "Our Mission",
+    "missionText": "Simplify X-Plane addon management, enhance flight simulation experience",
+    "contact": "Contact Us",
+    "email": "3370tech@gmail.com",
+    "emailLabel": "Email",
     "location": "China",
     "followUs": "Follow Us"
   },

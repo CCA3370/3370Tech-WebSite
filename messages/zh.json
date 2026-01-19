@@ -11,7 +11,8 @@
       "scrollDown": "向下滚动"
     },
     "learnMore": "了解更多",
-    "quickDownload": "快速下载"
+    "quickDownload": "快速下载",
+    "notAvailable": "暂不提供下载"
   },
   "product": {
     "version": "版本",
@@ -19,13 +20,19 @@
     "downloads": "下载",
     "features": "功能特性",
     "backToHome": "返回首页",
-    "includePrerelease": "包含预发布版本"
+    "includePrerelease": "包含预发布版本",
+    "notAvailable": "暂不提供下载"
   },
   "about": {
     "title": "关于我们",
-    "description": "3370Tech 致力于为用户提供高效、可靠的软件工具。我们的产品专注于软件管理和部署领域，帮助用户简化工作流程，提升效率。",
-    "contact": "联系方式",
-    "email": "contact@3370.tech",
+    "description": "3370Tech 由开发者 CCA3370 创立，专注于 X-Plane 模拟飞行生态系统的工具与插件开发。我们致力于为模拟飞行爱好者打造更便捷、更高效的飞行体验，让每一位虚拟机长都能享受更舒适的模拟环境。",
+    "developer": "主要开发者",
+    "developerName": "CCA3370",
+    "mission": "我们的使命",
+    "missionText": "简化 X-Plane 插件管理，提升模拟飞行体验",
+    "contact": "联系我们",
+    "email": "3370tech@gmail.com",
+    "emailLabel": "邮箱",
     "location": "中国",
     "followUs": "关注我们"
   },

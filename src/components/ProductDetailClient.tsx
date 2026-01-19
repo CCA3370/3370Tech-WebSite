@@ -52,8 +52,21 @@ export default function ProductDetailClient({ product, locale, translations: t }
   }, []);
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'var(--background)' }}>
-      <div className="pt-28 sm:pt-32 md:pt-36 pb-12 sm:pb-16 px-4 sm:px-6">
+    <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: 'var(--background)' }}>
+      {/* Grid Background with Color */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#3b82f615_1px,transparent_1px),linear-gradient(to_bottom,#3b82f615_1px,transparent_1px)] bg-[size:32px_32px]"></div>
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-100/60 via-transparent to-purple-100/40"></div>
+        {/* Decorative Planes */}
+        <div className="absolute top-20 right-[10%] text-6xl opacity-[0.06] rotate-45 select-none">✈</div>
+        <div className="absolute top-[40%] left-[5%] text-8xl opacity-[0.05] -rotate-12 select-none">✈</div>
+        <div className="absolute bottom-[20%] right-[15%] text-7xl opacity-[0.05] rotate-[30deg] select-none">✈</div>
+        <div className="absolute top-[60%] right-[5%] text-5xl opacity-[0.06] -rotate-45 select-none">✈</div>
+        <div className="absolute bottom-[40%] left-[12%] text-4xl opacity-[0.07] rotate-[60deg] select-none">✈</div>
+      </div>
+
+      <div className="relative pt-28 sm:pt-32 md:pt-36 pb-12 sm:pb-16 px-4 sm:px-6">
         <div className="container mx-auto max-w-4xl">
           {/* Back Button */}
           <Link
@@ -113,6 +126,7 @@ export default function ProductDetailClient({ product, locale, translations: t }
                 <SmartDownloadButton
                   download={product.download}
                   productName={product.name[locale]}
+                  available={product.available}
                 />
               </div>
             </div>

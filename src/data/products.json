@@ -23,6 +23,7 @@
       },
       "version": "latest",
       "tags": ["Windows", "X-Plane", "Installer", "Intelligent"],
+      "available": true,
       "features": [
         {
           "zh": "智能检测飞机、场景、插件和导航数据",
@@ -66,7 +67,7 @@
         "en": "Zibo 737 Update Manager"
       },
       "longDescription": {
-        "zh": "ZUpdater 是专为 Zibo 737 飞行模拟器模组开发的智能更新管理工具。自动检测、下载和安装最新的 Zibo 737 更新，避免繁琐的手动管理。支持快速更新、版本管理和一键回滚等功能，让您的 Zibo 737 始终保持最新状态，享受最新的飞行体验和功能改进。",
+        "zh": "ZUpdater 是专为 Zibo 737 飞行模拟器模组开发的智能更新管理工具。自动检测、下载和安装最新的 Zibo 737 更新，避免繁琐的手动管理。支持快速更新、自动涂装备份等功能，让您的 Zibo 737 始终保持最新状态，享受最新的飞行体验和功能改进。",
         "en": "ZUpdater is an intelligent update management tool designed specifically for the Zibo 737 flight simulator mod. Automatically detect, download, and install the latest Zibo 737 updates without the hassle of manual management. Features include quick updates, version management, one-click rollback, and more, ensuring your Zibo 737 stays up to date and you enjoy the latest flight experience and improvements."
       },
       "image": "/images/products/zupdater.png",
@@ -75,28 +76,29 @@
         "xplaneOrg": "https://x-plane.org/",
         "cdn": "https://cdn.cloverta.top/d/zupdater-latest.zip"
       },
-      "version": "2.5.0",
+      "version": "1.4.0",
       "tags": ["Windows", "X-Plane", "Zibo737", "Updater"],
+      "available": false,
       "features": [
         {
-          "zh": "自动检测软件更新",
-          "en": "Automatic update detection"
+          "zh": "自动检测、下载和安装 Zibo 737 最新更新",
+          "en": "Automatic detection, download, and installation of latest Zibo 737 updates"
         },
         {
-          "zh": "批量更新管理",
-          "en": "Batch update management"
+          "zh": "一键快速更新，无需手动操作",
+          "en": "One-click quick updates with no manual intervention"
         },
         {
-          "zh": "版本回滚功能",
-          "en": "Version rollback support"
+          "zh": "自动涂装备份，保护您的自定义涂装",
+          "en": "Automatic livery backup to protect your custom liveries"
         },
         {
-          "zh": "多软件源支持",
-          "en": "Multiple software sources"
+          "zh": "完整的更新日志和版本历史查看",
+          "en": "Complete update changelog and version history viewer"
         },
         {
-          "zh": "更新日志查看",
-          "en": "Update changelog viewer"
+          "zh": "智能冲突检测和兼容性验证",
+          "en": "Smart conflict detection and compatibility verification"
         }
       ]
     }

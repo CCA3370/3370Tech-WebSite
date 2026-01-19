@@ -20,6 +20,7 @@ export interface Product {
   githubRepo?: string; // Format: "owner/repo" for version fetching
   tags: string[];
   features?: LocalizedString[];
+  available?: boolean; // Whether the product is available for download
 }
 
 export interface ProductsData {
