@@ -2,7 +2,7 @@
   "products": [
     {
       "id": "product-1",
-      "slug": "xfastinstall",
+      "slug": "xfast-manager",
       "name": {
         "zh": "XFast Manager",
         "en": "XFast Manager"
