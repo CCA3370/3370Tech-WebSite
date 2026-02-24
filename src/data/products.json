@@ -4,22 +4,34 @@
       "id": "product-1",
       "slug": "xfastinstall",
       "name": {
-        "zh": "XFastInstall",
-        "en": "XFastInstall"
+        "zh": "XFast Manager",
+        "en": "XFast Manager"
       },
       "description": {
-        "zh": "X-Plane 插件智能安装工具",
-        "en": "X-Plane Addon Installer"
+        "zh": "X-Plane 插件智能管理工具",
+        "en": "X-Plane Addon Manager"
       },
       "longDescription": {
-        "zh": "XFastInstall 是一款专为 X-Plane 飞行模拟器设计的插件安装工具。只需拖放文件即可自动识别并安装飞机、场景、插件和导航数据。智能检测嵌套插件并自动去重，避免重复安装。安装前会检测冲突并给出警告，让插件管理变得简单安全。支持常见的压缩包格式，Windows 用户还可以通过右键菜单快速安装。",
-        "en": "XFastInstall is an addon installer designed for X-Plane flight simulator. Simply drag and drop files to automatically detect and install Aircraft, Scenery, Plugins, and Navdata. Intelligently detects nested addons and removes duplicates to avoid redundant installations. Checks for conflicts before installation and provides warnings, making addon management simple and safe. Supports common archive formats, with Windows users able to install via right-click context menu."
+        "zh": "XFast Manager 是一款专为 X-Plane 飞行模拟器设计的插件安装工具。只需拖放文件即可自动识别并安装飞机、场景、插件和导航数据。智能检测嵌套插件并自动去重，避免重复安装。安装前会检测冲突并给出警告，让插件管理变得简单安全。支持常见的压缩包格式，Windows 用户还可以通过右键菜单快速安装。",
+        "en": "XFast Manager is an addon installer designed for X-Plane flight simulator. Simply drag and drop files to automatically detect and install Aircraft, Scenery, Plugins, and Navdata. Intelligently detects nested addons and removes duplicates to avoid redundant installations. Checks for conflicts before installation and provides warnings, making addon management simple and safe. Supports common archive formats, with Windows users able to install via right-click context menu."
       },
       "image": "/images/products/xfastinstall.png",
       "githubRepo": "CCA3370/XFastInstall-Tauri",
       "download": {
-        "xplaneOrg": "https://x-plane.org/",
-        "cdn": "https://cdn.cloverta.top/d/xfastinstall-latest.zip"
+        "xplaneOrg": "https://forums.x-plane.org/files/file/98845-linwinmacxfast-managerdrag-drop-addon-installer-auto-scenery-sorting-more/",
+        "cdn": "http://cdn.cloverta.top/d/xfastinstall-latest.zip",
+        "cdnPlatform": {
+          "win": {
+            "portable": "http://cdn.cloverta.top/d/XFast-Manager-{version}-windows-portable.zip",
+            "installer": "http://cdn.cloverta.top/d/XFast-Manager-{version}-windows-setup.zip"
+          },
+          "mac": "http://cdn.cloverta.top/d/XFast-Manager-{version}-macos-universal.zip",
+          "linux": {
+            "appimage": "http://cdn.cloverta.top/d/XFast-Manager-{version}-linux-x64-AppImage.zip",
+            "rpm": "http://cdn.cloverta.top/d/XFast-Manager-{version}-linux-x64-rpm.zip",
+            "deb": "http://cdn.cloverta.top/d/XFast-Manager-{version}-linux-x64-deb.zip"
+          }
+        }
       },
       "version": "latest",
       "tags": ["Windows", "X-Plane", "Installer", "Intelligent"],
@@ -74,7 +86,7 @@
       "githubRepo": "3370tech/zupdater",
       "download": {
         "xplaneOrg": "https://x-plane.org/",
-        "cdn": "https://cdn.cloverta.top/d/zupdater-latest.zip"
+        "cdn": "http://cdn.cloverta.top/d/zupdater-latest.zip"
       },
       "version": "1.4.0",
       "tags": ["Windows", "X-Plane", "Zibo737", "Updater"],

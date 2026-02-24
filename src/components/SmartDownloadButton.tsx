@@ -1,15 +1,27 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { Download, ChevronDown, ExternalLink } from 'lucide-react';
+import { Download, ChevronDown, ExternalLink, Monitor, Apple, Terminal } from 'lucide-react';
 import { DownloadLinks } from '@/types/product';
 import { useLocale } from 'next-intl';
 import { isValidLocale, type Locale } from '@/i18n/routing';
+
+type UserOS = 'windows' | 'mac' | 'linux' | 'unknown';
+
+function detectOS(): UserOS {
+  if (typeof navigator === 'undefined') return 'unknown';
+  const ua = navigator.userAgent.toLowerCase();
+  if (ua.includes('win')) return 'windows';
+  if (ua.includes('mac') || ua.includes('darwin')) return 'mac';
+  if (ua.includes('linux') && !ua.includes('android')) return 'linux';
+  return 'unknown';
+}
 
 interface SmartDownloadButtonProps {
   download: DownloadLinks;
   productName: string;
   available?: boolean;
+  githubRepo?: string;
 }
 
 const translations = {
@@ -23,6 +35,8 @@ const translations = {
     moreOptions: '更多下载选项',
     cdnOnlyInChina: '仅限中国大陆可用',
     productNotAvailable: '暂不提供下载',
+    portable: '便携版',
+    installer: '安装版',
   },
   en: {
     download: 'CDN Download',
@@ -34,10 +48,12 @@ const translations = {
     moreOptions: 'More download options',
     cdnOnlyInChina: 'Available in China only',
     productNotAvailable: 'Not Available',
+    portable: 'Portable',
+    installer: 'Installer',
   },
 };
 
-export default function SmartDownloadButton({ download, productName, available = true }: SmartDownloadButtonProps) {
+export default function SmartDownloadButton({ download, productName, available = true, githubRepo }: SmartDownloadButtonProps) {
   const rawLocale = useLocale();
   const locale: Locale = isValidLocale(rawLocale) ? rawLocale : 'en';
   const t = translations[locale];
@@ -45,9 +61,14 @@ export default function SmartDownloadButton({ download, productName, available =
   const [isChina, setIsChina] = useState<boolean | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [userOS, setUserOS] = useState<UserOS>('unknown');
+  const [version, setVersion] = useState<string>('latest');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const isPlaceholder = download.xplaneOrg.includes('TODO_');
+
+  // 将 URL 模板中的 {version} 替换为实际版本号
+  const resolveUrl = (url: string) => url.replace('{version}', version);
 
   useEffect(() => {
     const detectRegion = async () => {
@@ -133,6 +154,27 @@ export default function SmartDownloadButton({ download, productName, available =
   }, []);
 
   useEffect(() => {
+    setUserOS(detectOS());
+  }, []);
+
+  // 从 GitHub API 获取版本号，用于构建 CDN 下载链接
+  useEffect(() => {
+    if (!githubRepo) return;
+    const fetchVersion = async () => {
+      try {
+        const response = await fetch(`/api/github-version?repo=${encodeURIComponent(githubRepo)}`);
+        if (response.ok) {
+          const data = await response.json();
+          if (data.version) setVersion(data.version);
+        }
+      } catch {
+        // 版本获取失败，保持 'latest'
+      }
+    };
+    fetchVersion();
+  }, [githubRepo]);
+
+  useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsDropdownOpen(false);
@@ -143,11 +185,23 @@ export default function SmartDownloadButton({ download, productName, available =
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // CDN按钮点击：只有中国用户可用
+  // CDN按钮点击：只有中国用户可用，根据系统弹出不同选项
   const handleCdnDownload = () => {
-    if (isChina) {
-      window.open(download.cdn, '_blank');
+    if (!isChina) return;
+
+    if (download.cdnPlatform) {
+      // Mac 直接下载
+      if (userOS === 'mac' && download.cdnPlatform.mac) {
+        window.open(resolveUrl(download.cdnPlatform.mac), '_blank');
+        return;
+      }
+      // Windows/Linux/未知系统：打开下拉菜单选择
+      setIsDropdownOpen(!isDropdownOpen);
+      return;
     }
+
+    // 无平台特定下载：直接下载通用CDN链接
+    window.open(download.cdn, '_blank');
   };
 
   // X-Plane.org下载
@@ -243,6 +297,85 @@ export default function SmartDownloadButton({ download, productName, available =
             boxShadow: '0 10px 40px var(--shadow)',
           }}
         >
+          {/* 平台特定 CDN 下载选项 */}
+          {isChina && download.cdnPlatform && (userOS === 'windows' || userOS === 'unknown') && download.cdnPlatform.win && (
+            <>
+              <button
+                onClick={() => { window.open(resolveUrl(download.cdnPlatform!.win!.portable), '_blank'); setIsDropdownOpen(false); }}
+                className="w-full flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 sm:py-4 text-left transition-all duration-200 text-sm sm:text-base hover:bg-black/5 active:bg-black/10"
+                style={{ color: 'var(--foreground)' }}
+              >
+                <Monitor className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: 'var(--muted)' }} />
+                <div className="flex-1">
+                  <div className="font-medium">Windows {t.portable}</div>
+                </div>
+              </button>
+              <button
+                onClick={() => { window.open(resolveUrl(download.cdnPlatform!.win!.installer), '_blank'); setIsDropdownOpen(false); }}
+                className="w-full flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 sm:py-4 text-left transition-all duration-200 text-sm sm:text-base hover:bg-black/5 active:bg-black/10"
+                style={{ color: 'var(--foreground)' }}
+              >
+                <Monitor className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: 'var(--muted)' }} />
+                <div className="flex-1">
+                  <div className="font-medium">Windows {t.installer}</div>
+                </div>
+              </button>
+            </>
+          )}
+
+          {isChina && download.cdnPlatform && userOS === 'unknown' && download.cdnPlatform.mac && (
+            <button
+              onClick={() => { window.open(resolveUrl(download.cdnPlatform!.mac!), '_blank'); setIsDropdownOpen(false); }}
+              className="w-full flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 sm:py-4 text-left transition-all duration-200 text-sm sm:text-base hover:bg-black/5 active:bg-black/10"
+              style={{ color: 'var(--foreground)' }}
+            >
+              <Apple className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: 'var(--muted)' }} />
+              <div className="flex-1">
+                <div className="font-medium">macOS</div>
+              </div>
+            </button>
+          )}
+
+          {isChina && download.cdnPlatform && (userOS === 'linux' || userOS === 'unknown') && download.cdnPlatform.linux && (
+            <>
+              <button
+                onClick={() => { window.open(resolveUrl(download.cdnPlatform!.linux!.appimage), '_blank'); setIsDropdownOpen(false); }}
+                className="w-full flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 sm:py-4 text-left transition-all duration-200 text-sm sm:text-base hover:bg-black/5 active:bg-black/10"
+                style={{ color: 'var(--foreground)' }}
+              >
+                <Terminal className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: 'var(--muted)' }} />
+                <div className="flex-1">
+                  <div className="font-medium">Linux AppImage</div>
+                </div>
+              </button>
+              <button
+                onClick={() => { window.open(resolveUrl(download.cdnPlatform!.linux!.rpm), '_blank'); setIsDropdownOpen(false); }}
+                className="w-full flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 sm:py-4 text-left transition-all duration-200 text-sm sm:text-base hover:bg-black/5 active:bg-black/10"
+                style={{ color: 'var(--foreground)' }}
+              >
+                <Terminal className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: 'var(--muted)' }} />
+                <div className="flex-1">
+                  <div className="font-medium">Linux RPM</div>
+                </div>
+              </button>
+              <button
+                onClick={() => { window.open(resolveUrl(download.cdnPlatform!.linux!.deb), '_blank'); setIsDropdownOpen(false); }}
+                className="w-full flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 sm:py-4 text-left transition-all duration-200 text-sm sm:text-base hover:bg-black/5 active:bg-black/10"
+                style={{ color: 'var(--foreground)' }}
+              >
+                <Terminal className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: 'var(--muted)' }} />
+                <div className="flex-1">
+                  <div className="font-medium">Linux DEB</div>
+                </div>
+              </button>
+            </>
+          )}
+
+          {/* 分隔线 */}
+          {isChina && download.cdnPlatform && (
+            <div className="mx-4 border-t" style={{ borderColor: 'var(--border)' }} />
+          )}
+
           <button
             onClick={handleXplaneOrgDownload}
             disabled={isPlaceholder}

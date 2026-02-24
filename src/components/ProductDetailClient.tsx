@@ -127,6 +127,7 @@ export default function ProductDetailClient({ product, locale, translations: t }
                   download={product.download}
                   productName={product.name[locale]}
                   available={product.available}
+                  githubRepo={product.githubRepo}
                 />
               </div>
             </div>

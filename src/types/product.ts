@@ -3,9 +3,23 @@ export interface LocalizedString {
   en: string;
 }
 
+export interface PlatformDownloads {
+  win?: {
+    portable: string;
+    installer: string;
+  };
+  mac?: string;
+  linux?: {
+    appimage: string;
+    rpm: string;
+    deb: string;
+  };
+}
+
 export interface DownloadLinks {
-  xplaneOrg: string; // X-Plane.org store link (placeholder: https://store.x-plane.org/TODO_xxx)
-  cdn: string; // CDN download link for China mainland
+  xplaneOrg: string; // X-Plane.org store link
+  cdn: string; // CDN download link for China mainland (fallback)
+  cdnPlatform?: PlatformDownloads; // Platform-specific CDN downloads
 }
 
 export interface Product {
