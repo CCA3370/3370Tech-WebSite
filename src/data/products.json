@@ -16,7 +16,7 @@
         "en": "XFast Manager is an addon installer designed for X-Plane flight simulator. Simply drag and drop files to automatically detect and install Aircraft, Scenery, Plugins, and Navdata. Intelligently detects nested addons and removes duplicates to avoid redundant installations. Checks for conflicts before installation and provides warnings, making addon management simple and safe. Supports common archive formats, with Windows users able to install via right-click context menu."
       },
       "image": "/images/products/xfastinstall.png",
-      "githubRepo": "CCA3370/XFastInstall-Tauri",
+      "githubRepo": "CCA3370/XFast-Manager",
       "download": {
         "xplaneOrg": "https://forums.x-plane.org/files/file/98845-linwinmacxfast-managerdrag-drop-addon-installer-auto-scenery-sorting-more/",
         "cdn": "http://cdn.cloverta.top/d/xfastinstall-latest.zip",
