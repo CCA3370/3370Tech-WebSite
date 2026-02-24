@@ -1,0 +1,10 @@
+{
+  "name": "3370 Tech",
+  "short_name": "3370Tech",
+  "description": "Discover amazing software solutions",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": []
+}
