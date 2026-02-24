@@ -62,7 +62,7 @@ export default function SmartDownloadButton({ download, productName, available =
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [userOS, setUserOS] = useState<UserOS>('unknown');
-  const [version, setVersion] = useState<string>('latest');
+  const [version, setVersion] = useState<string>('1.0.0');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const isPlaceholder = download.xplaneOrg.includes('TODO_');

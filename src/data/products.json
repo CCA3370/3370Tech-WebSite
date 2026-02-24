@@ -33,7 +33,7 @@
           }
         }
       },
-      "version": "latest",
+      "version": "1.0.0",
       "tags": ["Windows", "X-Plane", "Installer", "Intelligent"],
       "available": true,
       "features": [
