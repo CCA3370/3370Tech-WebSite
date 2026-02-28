@@ -13,9 +13,10 @@ function writeProducts(data: any) {
   fs.writeFileSync(PRODUCTS_FILE, JSON.stringify(data, null, 2), 'utf-8');
 }
 
-export async function GET(_request: NextRequest, { params }: { params: { slug: string } }) {
+export async function GET(_request: NextRequest, context: any) {
   try {
-    const { slug } = params;
+    const params = await (context?.params ?? {});
+    const slug = params?.slug;
     const data = readProducts();
     const product = data.products.find((p: any) => p.slug === slug);
     const count = product && typeof product.count === 'number' ? product.count : 0;
@@ -25,9 +26,10 @@ export async function GET(_request: NextRequest, { params }: { params: { slug: s
   }
 }
 
-export async function POST(_request: NextRequest, { params }: { params: { slug: string } }) {
+export async function POST(_request: NextRequest, context: any) {
   try {
-    const { slug } = params;
+    const params = await (context?.params ?? {});
+    const slug = params?.slug;
     const data = readProducts();
     const product = data.products.find((p: any) => p.slug === slug);
     if (product) {
