@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Check } from 'lucide-react';
 import SmartDownloadButton from '@/components/SmartDownloadButton';
+import { useTranslations } from 'next-intl';
 import VersionDisplay from '@/components/VersionDisplay';
 import { Product } from '@/types/product';
 import { type Locale } from '@/i18n/routing';
@@ -20,6 +21,24 @@ interface ProductDetailClientProps {
 export default function ProductDetailClient({ product, locale, translations: t }: ProductDetailClientProps) {
   const [visibleFeatures, setVisibleFeatures] = useState<Set<number>>(new Set());
   const featureRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  // 下载次数
+  const [downloadCount, setDownloadCount] = useState<number | null>(null);
+
+  useEffect(() => {
+    async function fetchDownloadCount() {
+      try {
+        const res = await fetch(`/api/download-count/${product.slug}`);
+        if (res.ok) {
+          const data = await res.json();
+          setDownloadCount(data.count);
+        }
+      } catch {
+        setDownloadCount(null);
+      }
+    }
+    fetchDownloadCount();
+  }, [product.slug]);
 
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
@@ -88,11 +107,27 @@ export default function ProductDetailClient({ product, locale, translations: t }
               {product.name[locale]}
             </h1>
 
+
             <VersionDisplay
               productSlug={product.slug}
               defaultVersion={product.version}
               githubRepo={product.githubRepo}
             />
+
+            {/* 下载次数显示 */}
+            <div className="mt-2 text-sm text-gray-500" style={{ color: 'var(--muted)' }}>
+              {downloadCount !== null ? (
+                <>
+                  {locale === 'zh'
+                    ? `累计下载：${downloadCount} 次`
+                    : `Downloads: ${downloadCount} times`}
+                </>
+              ) : (
+                <span style={{ opacity: 0.6 }}>
+                  {locale === 'zh' ? '累计下载：-- 次' : 'Downloads: -- times'}
+                </span>
+              )}
+            </div>
 
             {/* Tags */}
             {product.tags && product.tags.length > 0 && (
@@ -128,6 +163,13 @@ export default function ProductDetailClient({ product, locale, translations: t }
                   productName={product.name[locale]}
                   available={product.available}
                   githubRepo={product.githubRepo}
+                  productSlug={product.slug}
+                  onDownloaded={() => {
+                    // 重新获取下载次数
+                    fetch(`/api/download-count/${product.slug}`)
+                      .then(res => res.json())
+                      .then(data => setDownloadCount(data.count));
+                  }}
                 />
               </div>
             </div>

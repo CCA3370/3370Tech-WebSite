@@ -65,7 +65,8 @@
           "zh": "现代化深色主题界面",
           "en": "Modern dark theme UI"
         }
-      ]
+      ],
+      "count": 546
     },
     {
       "id": "product-2",
@@ -112,7 +113,8 @@
           "zh": "智能冲突检测和兼容性验证",
           "en": "Smart conflict detection and compatibility verification"
         }
-      ]
+      ],
+      "count": 0
     }
   ]
 }

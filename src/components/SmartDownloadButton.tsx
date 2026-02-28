@@ -22,6 +22,8 @@ interface SmartDownloadButtonProps {
   productName: string;
   available?: boolean;
   githubRepo?: string;
+  productSlug?: string;
+  onDownloaded?: () => void;
 }
 
 const translations = {
@@ -53,7 +55,7 @@ const translations = {
   },
 };
 
-export default function SmartDownloadButton({ download, productName, available = true, githubRepo }: SmartDownloadButtonProps) {
+export default function SmartDownloadButton({ download, productName, available = true, githubRepo, productSlug, onDownloaded }: SmartDownloadButtonProps) {
   const rawLocale = useLocale();
   const locale: Locale = isValidLocale(rawLocale) ? rawLocale : 'en';
   const t = translations[locale];
@@ -186,8 +188,17 @@ export default function SmartDownloadButton({ download, productName, available =
   }, []);
 
   // CDN按钮点击：只有中国用户可用，根据系统弹出不同选项
-  const handleCdnDownload = () => {
+  const handleCdnDownload = async () => {
+
     if (!isChina) return;
+
+    // 统计下载
+    if (productSlug) {
+      try {
+        await fetch(`/api/download-count/${productSlug}`, { method: 'POST' });
+        if (onDownloaded) onDownloaded();
+      } catch {}
+    }
 
     if (download.cdnPlatform) {
       // Mac 直接下载
@@ -205,8 +216,15 @@ export default function SmartDownloadButton({ download, productName, available =
   };
 
   // X-Plane.org下载
-  const handleXplaneOrgDownload = () => {
+  const handleXplaneOrgDownload = async () => {
     if (!isPlaceholder) {
+      // 统计下载
+      if (productSlug) {
+        try {
+          await fetch(`/api/download-count/${productSlug}`, { method: 'POST' });
+          if (onDownloaded) onDownloaded();
+        } catch {}
+      }
       window.open(download.xplaneOrg, '_blank');
     }
     setIsDropdownOpen(false);
