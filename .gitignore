@@ -51,3 +51,6 @@ next-env.d.ts
 Thumbs.db
 =======
 >>>>>>> d7bb0dfa6c6913d7408e19ac5dbc89adcbb753d4
+
+.vercel
+.env*.local
