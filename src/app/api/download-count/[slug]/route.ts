@@ -1,18 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import fs from 'node:fs';
 import path from 'node:path';
-import { kv } from '@vercel/kv';
+import { Redis } from '@upstash/redis';
 import { getProductBySlug } from '@/lib/products';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 const PRODUCTS_FILE = path.join(process.cwd(), 'src/data/products.json');
-const hasRemoteCounterStore = Boolean(
-  (process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL) &&
-  (process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN)
-);
+const counterStoreUrl = process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL || '';
+const counterStoreToken = process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN || '';
+const hasRemoteCounterStore = Boolean(counterStoreUrl && counterStoreToken);
 const canUseFileFallback = process.env.VERCEL !== '1';
+let counterStoreClient: Redis | null = null;
 
 type RouteParams = { slug?: string };
 type RouteContext = { params: Promise<RouteParams> | RouteParams };
@@ -92,18 +92,30 @@ function getCounterKey(slug: string) {
   return `download-count:${slug}`;
 }
 
+function getCounterStoreClient() {
+  if (!counterStoreClient) {
+    counterStoreClient = new Redis({
+      url: counterStoreUrl,
+      token: counterStoreToken,
+    });
+  }
+
+  return counterStoreClient;
+}
+
 async function getOrSeedRemoteCount(slug: string): Promise<number> {
+  const counterStore = getCounterStoreClient();
   const key = getCounterKey(slug);
-  const existing = normalizeCount(await kv.get<number | string | null>(key));
+  const existing = normalizeCount(await counterStore.get<number | string | null>(key));
 
   if (existing !== null) {
     return existing;
   }
 
   const seed = readCountFromFile(slug);
-  await kv.set(key, seed, { nx: true });
+  await counterStore.set(key, seed, { nx: true });
 
-  const updated = normalizeCount(await kv.get<number | string | null>(key));
+  const updated = normalizeCount(await counterStore.get<number | string | null>(key));
   return updated ?? seed;
 }
 
@@ -119,7 +131,8 @@ function getStorageConfigErrorResponse() {
   return toNoStoreJson(
     {
       error: 'counter_store_not_configured',
-      message: 'Configure Vercel Redis/KV environment variables for persistent download counts.',
+      message:
+        'Set UPSTASH_REDIS_REST_URL + UPSTASH_REDIS_REST_TOKEN (or KV_REST_API_URL + KV_REST_API_TOKEN).',
     },
     { status: 503 }
   );
@@ -167,8 +180,9 @@ export async function POST(_request: NextRequest, context: RouteContext) {
 
     if (hasRemoteCounterStore) {
       const key = getCounterKey(slug);
+      const counterStore = getCounterStoreClient();
       await getOrSeedRemoteCount(slug);
-      const next = normalizeCount(await kv.incr(key)) ?? 0;
+      const next = normalizeCount(await counterStore.incr(key)) ?? 0;
       return toNoStoreJson({ count: next });
     }
 
