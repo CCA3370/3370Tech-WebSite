@@ -37,7 +37,7 @@ interface FullPageWrapperProps {
 export default function FullPageWrapper({ children, onLeave }: FullPageWrapperProps) {
   return (
     <ReactFullpage
-      licenseKey={'GPLv3'}
+      licenseKey={`B^Q'P1W&p0`}
       scrollingSpeed={700}
       css3={true}
       easingcss3={'cubic-bezier(0.645, 0.045, 0.355, 1.000)'}

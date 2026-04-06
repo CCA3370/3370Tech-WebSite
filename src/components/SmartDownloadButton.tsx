@@ -72,6 +72,23 @@ export default function SmartDownloadButton({ download, productName, available =
   // 将 URL 模板中的 {version} 替换为实际版本号
   const resolveUrl = (url: string) => url.replace('{version}', version);
 
+  const trackDownload = () => {
+    if (!productSlug) return;
+
+    void fetch(`/api/download-count/${productSlug}`, { method: 'POST', cache: 'no-store' })
+      .then((response) => {
+        if (response.ok && onDownloaded) {
+          onDownloaded();
+        }
+      })
+      .catch(() => {});
+  };
+
+  const openDownloadLink = (url: string) => {
+    window.open(url, '_blank', 'noopener,noreferrer');
+    trackDownload();
+  };
+
   useEffect(() => {
     const detectRegion = async () => {
       let detectedIsChina = false;
@@ -188,22 +205,13 @@ export default function SmartDownloadButton({ download, productName, available =
   }, []);
 
   // CDN按钮点击：只有中国用户可用，根据系统弹出不同选项
-  const handleCdnDownload = async () => {
-
+  const handleCdnDownload = () => {
     if (!isChina) return;
-
-    // 统计下载
-    if (productSlug) {
-      try {
-        await fetch(`/api/download-count/${productSlug}`, { method: 'POST' });
-        if (onDownloaded) onDownloaded();
-      } catch {}
-    }
 
     if (download.cdnPlatform) {
       // Mac 直接下载
       if (userOS === 'mac' && download.cdnPlatform.mac) {
-        window.open(resolveUrl(download.cdnPlatform.mac), '_blank');
+        openDownloadLink(resolveUrl(download.cdnPlatform.mac));
         return;
       }
       // Windows/Linux/未知系统：打开下拉菜单选择
@@ -212,20 +220,13 @@ export default function SmartDownloadButton({ download, productName, available =
     }
 
     // 无平台特定下载：直接下载通用CDN链接
-    window.open(download.cdn, '_blank');
+    openDownloadLink(resolveUrl(download.cdn));
   };
 
   // X-Plane.org下载
-  const handleXplaneOrgDownload = async () => {
+  const handleXplaneOrgDownload = () => {
     if (!isPlaceholder) {
-      // 统计下载
-      if (productSlug) {
-        try {
-          await fetch(`/api/download-count/${productSlug}`, { method: 'POST' });
-          if (onDownloaded) onDownloaded();
-        } catch {}
-      }
-      window.open(download.xplaneOrg, '_blank');
+      openDownloadLink(download.xplaneOrg);
     }
     setIsDropdownOpen(false);
   };
@@ -319,7 +320,7 @@ export default function SmartDownloadButton({ download, productName, available =
           {isChina && download.cdnPlatform && (userOS === 'windows' || userOS === 'unknown') && download.cdnPlatform.win && (
             <>
               <button
-                onClick={() => { window.open(resolveUrl(download.cdnPlatform!.win!.portable), '_blank'); setIsDropdownOpen(false); }}
+                onClick={() => { openDownloadLink(resolveUrl(download.cdnPlatform!.win!.portable)); setIsDropdownOpen(false); }}
                 className="w-full flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 sm:py-4 text-left transition-all duration-200 text-sm sm:text-base hover:bg-black/5 active:bg-black/10"
                 style={{ color: 'var(--foreground)' }}
               >
@@ -329,7 +330,7 @@ export default function SmartDownloadButton({ download, productName, available =
                 </div>
               </button>
               <button
-                onClick={() => { window.open(resolveUrl(download.cdnPlatform!.win!.installer), '_blank'); setIsDropdownOpen(false); }}
+                onClick={() => { openDownloadLink(resolveUrl(download.cdnPlatform!.win!.installer)); setIsDropdownOpen(false); }}
                 className="w-full flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 sm:py-4 text-left transition-all duration-200 text-sm sm:text-base hover:bg-black/5 active:bg-black/10"
                 style={{ color: 'var(--foreground)' }}
               >
@@ -343,7 +344,7 @@ export default function SmartDownloadButton({ download, productName, available =
 
           {isChina && download.cdnPlatform && userOS === 'unknown' && download.cdnPlatform.mac && (
             <button
-              onClick={() => { window.open(resolveUrl(download.cdnPlatform!.mac!), '_blank'); setIsDropdownOpen(false); }}
+              onClick={() => { openDownloadLink(resolveUrl(download.cdnPlatform!.mac!)); setIsDropdownOpen(false); }}
               className="w-full flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 sm:py-4 text-left transition-all duration-200 text-sm sm:text-base hover:bg-black/5 active:bg-black/10"
               style={{ color: 'var(--foreground)' }}
             >
@@ -357,7 +358,7 @@ export default function SmartDownloadButton({ download, productName, available =
           {isChina && download.cdnPlatform && (userOS === 'linux' || userOS === 'unknown') && download.cdnPlatform.linux && (
             <>
               <button
-                onClick={() => { window.open(resolveUrl(download.cdnPlatform!.linux!.appimage), '_blank'); setIsDropdownOpen(false); }}
+                onClick={() => { openDownloadLink(resolveUrl(download.cdnPlatform!.linux!.appimage)); setIsDropdownOpen(false); }}
                 className="w-full flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 sm:py-4 text-left transition-all duration-200 text-sm sm:text-base hover:bg-black/5 active:bg-black/10"
                 style={{ color: 'var(--foreground)' }}
               >
@@ -367,7 +368,7 @@ export default function SmartDownloadButton({ download, productName, available =
                 </div>
               </button>
               <button
-                onClick={() => { window.open(resolveUrl(download.cdnPlatform!.linux!.rpm), '_blank'); setIsDropdownOpen(false); }}
+                onClick={() => { openDownloadLink(resolveUrl(download.cdnPlatform!.linux!.rpm)); setIsDropdownOpen(false); }}
                 className="w-full flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 sm:py-4 text-left transition-all duration-200 text-sm sm:text-base hover:bg-black/5 active:bg-black/10"
                 style={{ color: 'var(--foreground)' }}
               >
@@ -377,7 +378,7 @@ export default function SmartDownloadButton({ download, productName, available =
                 </div>
               </button>
               <button
-                onClick={() => { window.open(resolveUrl(download.cdnPlatform!.linux!.deb), '_blank'); setIsDropdownOpen(false); }}
+                onClick={() => { openDownloadLink(resolveUrl(download.cdnPlatform!.linux!.deb)); setIsDropdownOpen(false); }}
                 className="w-full flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 sm:py-4 text-left transition-all duration-200 text-sm sm:text-base hover:bg-black/5 active:bg-black/10"
                 style={{ color: 'var(--foreground)' }}
               >

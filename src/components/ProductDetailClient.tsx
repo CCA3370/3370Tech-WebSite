@@ -1,10 +1,9 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Check } from 'lucide-react';
 import SmartDownloadButton from '@/components/SmartDownloadButton';
-import { useTranslations } from 'next-intl';
 import VersionDisplay from '@/components/VersionDisplay';
 import { Product } from '@/types/product';
 import { type Locale } from '@/i18n/routing';
@@ -25,20 +24,24 @@ export default function ProductDetailClient({ product, locale, translations: t }
   // 下载次数
   const [downloadCount, setDownloadCount] = useState<number | null>(null);
 
-  useEffect(() => {
-    async function fetchDownloadCount() {
-      try {
-        const res = await fetch(`/api/download-count/${product.slug}`);
-        if (res.ok) {
-          const data = await res.json();
-          setDownloadCount(data.count);
-        }
-      } catch {
+  const refreshDownloadCount = useCallback(async () => {
+    try {
+      const res = await fetch(`/api/download-count/${product.slug}`, { cache: 'no-store' });
+      if (!res.ok) {
         setDownloadCount(null);
+        return;
       }
+
+      const data = await res.json();
+      setDownloadCount(typeof data.count === 'number' ? data.count : null);
+    } catch {
+      setDownloadCount(null);
     }
-    fetchDownloadCount();
   }, [product.slug]);
+
+  useEffect(() => {
+    void refreshDownloadCount();
+  }, [refreshDownloadCount]);
 
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
@@ -165,10 +168,7 @@ export default function ProductDetailClient({ product, locale, translations: t }
                   githubRepo={product.githubRepo}
                   productSlug={product.slug}
                   onDownloaded={() => {
-                    // 重新获取下载次数
-                    fetch(`/api/download-count/${product.slug}`)
-                      .then(res => res.json())
-                      .then(data => setDownloadCount(data.count));
+                    void refreshDownloadCount();
                   }}
                 />
               </div>

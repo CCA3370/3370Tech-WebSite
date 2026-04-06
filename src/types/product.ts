@@ -35,6 +35,7 @@ export interface Product {
   tags: string[];
   features?: LocalizedString[];
   available?: boolean; // Whether the product is available for download
+  count?: number; // Historical download count seed value
 }
 
 export interface ProductsData {
